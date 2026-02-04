@@ -179,7 +179,7 @@ export const ChatBot = ({ language: appLanguage, onLanguageChange: changeAppLang
       text: {
         en: 'Perfeito! Vou falar português com você. Como posso ajudá-lo hoje? 🇧🇷',
         es: 'Perfeito! Vou falar português com você. Como posso ajudá-lo hoje? 🇧🇷',
-        pt: 'Perfeito! Vou falar português com você. Como posso ajudá-lo hoje? 🇧🇷'
+        pt: 'Perfeito! Vou falar português com você. Como posso ajudá-lo hoy? 🇧🇷'
       },
       responses: {
         en: 'Portuguese',
@@ -249,7 +249,7 @@ export const ChatBot = ({ language: appLanguage, onLanguageChange: changeAppLang
       text: {
         en: 'Perfect! We can schedule a live demo of our welding robotics. Our team will contact you to arrange a convenient time. 🎥',
         es: '¡Perfecto! Podemos programar una demo en vivo de nuestra robótica de soldadura. Nuestro equipo te contactará para coordinar un horario conveniente. 🎥',
-        pt: 'Perfeito! Podemos agendar uma demonstração ao vivo de nossa robótica de soldagem. Nossa equipe entrará em contato para agendar um horário conveniente. 🎥'
+        pt: 'Perfeito! Podemos agendar uma demonstração ao vivo de nossa robótica de soldagem. Nossa equipe entrará em contato para agendar um horario conveniente. 🎥'
       },
       responses: {
         en: 'Schedule Demo',
@@ -291,7 +291,7 @@ export const ChatBot = ({ language: appLanguage, onLanguageChange: changeAppLang
       text: {
         en: 'Our sales team will contact you shortly. You can also reach us directly:\n📞 +1 403-860-5275\n📧 sales@lerobotics.ai',
         es: 'Nuestro equipo de ventas te contactará pronto. También puedes contactarnos directamente:\n📞 +1 403-860-5275\n📧 sales@lerobotics.ai',
-        pt: 'Nossa equipe de vendas entrará em contato em breve. Você también pode nos contatar diretamente:\n📞 +1 403-860-5275\n📧 sales@lerobotics.ai'
+        pt: 'Nossa equipe de vendas entrará em contato em breve. Você também pode nos contatar diretamente:\n📞 +1 403-860-5275\n📧 sales@lerobotics.ai'
       },
       responses: {
         en: 'Contact Sales',
@@ -394,7 +394,6 @@ export const ChatBot = ({ language: appLanguage, onLanguageChange: changeAppLang
       const newLang = optionId.split('_')[1] as Language;
       // Solo cambiar el idioma del chatbot, no de toda la aplicación
       setChatLanguage(newLang);
-    
     }
 
     const userMessage: Message = {
@@ -515,79 +514,79 @@ export const ChatBot = ({ language: appLanguage, onLanguageChange: changeAppLang
 
       {/* Chat Window Completo */}
       {isOpen && (
-        <div className={`fixed bottom-8 right-8 z-50 w-96 ${isMinimized ? 'h-20' : 'h-[600px]'} bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col transition-all duration-500 ease-in-out`}>
+        <div className={`fixed bottom-8 right-8 z-50 w-[calc(100vw-2rem)] sm:w-[400px] md:w-96 ${isMinimized ? 'h-16 md:h-20' : 'h-[70vh] sm:h-[600px]'} bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col transition-all duration-500 ease-in-out max-w-[calc(100vw-2rem)]`}>
           {/* Header */}
-          <div className="bg-gradient-to-r from-red-600 to-red-500 px-6 py-4 rounded-t-2xl text-white flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center relative">
-                <Bot className="w-5 h-5" />
-                <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-white"></div>
+          <div className="bg-gradient-to-r from-red-600 to-red-500 px-4 md:px-6 py-3 md:py-4 rounded-t-2xl text-white flex items-center justify-between">
+            <div className="flex items-center gap-2 md:gap-3">
+              <div className="w-8 h-8 md:w-10 md:h-10 bg-white/20 rounded-full flex items-center justify-center relative">
+                <Bot className="w-4 h-4 md:w-5 md:h-5" />
+                <div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 md:w-3 md:h-3 bg-green-400 rounded-full border border-white"></div>
               </div>
-              <div>
-                <h3 className="font-semibold">LE Robotics Assistant</h3>
-                <p className="text-sm text-white/80 opacity-90 flex items-center gap-1">
-                  <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+              <div className="max-w-[140px] md:max-w-none">
+                <h3 className="font-semibold text-sm md:text-base truncate">LE Robotics Assistant</h3>
+                <p className="text-xs md:text-sm text-white/80 opacity-90 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 md:w-2 md:h-2 bg-green-400 rounded-full animate-pulse"></span>
                   {chatLanguage === 'en' ? 'Online' : chatLanguage === 'es' ? 'En línea' : 'Online'}
-                  <span className="text-xs ml-2 px-2 py-0.5 bg-white/20 rounded-full">
+                  <span className="text-xs px-1.5 py-0.5 md:px-2 md:py-0.5 bg-white/20 rounded-full hidden sm:inline">
                     {getLanguageFlag(chatLanguage)} {getLanguageName(chatLanguage)}
                   </span>
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 md:gap-2">
               <button
                 onClick={() => setShowLanguageSelector(!showLanguageSelector)}
-                className="w-8 h-8 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors relative"
+                className="w-7 h-7 md:w-8 md:h-8 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors relative"
                 title="Change Chat Language"
               >
-                <Globe className="w-4 h-4" />
+                <Globe className="w-3.5 h-3.5 md:w-4 md:h-4" />
               </button>
               <button
                 onClick={toggleMinimize}
-                className="w-8 h-8 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors"
+                className="w-7 h-7 md:w-8 md:h-8 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors"
               >
-                <span className="text-lg font-bold">{isMinimized ? '+' : '-'}</span>
+                <span className="text-base md:text-lg font-bold">{isMinimized ? '+' : '-'}</span>
               </button>
               <button
                 onClick={handleClose}
-                className="w-8 h-8 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors"
+                className="w-7 h-7 md:w-8 md:h-8 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4 md:w-5 md:h-5" />
               </button>
             </div>
           </div>
 
           {/* Language Selector Dropdown - Solo para el chatbot */}
           {showLanguageSelector && (
-            <div className="absolute top-16 right-12 z-10 bg-white rounded-xl shadow-2xl border border-gray-200 p-3 animate-in fade-in slide-in-from-top-2">
-              <div className="space-y-2">
-                <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Chat Language</div>
+            <div className="absolute top-12 md:top-16 right-8 md:right-12 z-10 bg-white rounded-xl shadow-2xl border border-gray-200 p-2 md:p-3 animate-in fade-in slide-in-from-top-2 w-48 md:w-56">
+              <div className="space-y-1 md:space-y-2">
+                <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1 md:mb-2">Chat Language</div>
                 {(['en', 'es', 'pt'] as Language[]).map((lang) => (
                   <button
                     key={lang}
                     onClick={() => handleChatLanguageChange(lang)}
-                    className={`w-full px-4 py-2 rounded-lg text-left transition-all duration-200 flex items-center gap-3 ${
+                    className={`w-full px-3 md:px-4 py-1.5 md:py-2 rounded-lg text-left transition-all duration-200 flex items-center gap-2 md:gap-3 ${
                       chatLanguage === lang 
                         ? 'bg-red-50 text-red-600 border border-red-200' 
                         : 'hover:bg-gray-50 text-gray-700'
                     }`}
                   >
-                    <span className="text-lg">{getLanguageFlag(lang)}</span>
-                    <span className="font-medium">{getLanguageName(lang)}</span>
+                    <span className="text-base md:text-lg">{getLanguageFlag(lang)}</span>
+                    <span className="font-medium text-sm md:text-base">{getLanguageName(lang)}</span>
                     {chatLanguage === lang && (
-                      <Sparkles className="w-4 h-4 text-red-500 ml-auto" />
+                      <Sparkles className="w-3.5 h-3.5 md:w-4 md:h-4 text-red-500 ml-auto" />
                     )}
                   </button>
                 ))}
-                <div className="pt-3 mt-3 border-t border-gray-200">
-                  <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Entire Website</div>
+                <div className="pt-2 md:pt-3 mt-2 md:mt-3 border-t border-gray-200">
+                  <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1 md:mb-2">Entire Website</div>
                   <button
                     onClick={() => handleGlobalLanguageChange(chatLanguage)}
-                    className="w-full px-4 py-2 rounded-lg text-left transition-all duration-200 flex items-center gap-3 hover:bg-gray-50 text-gray-700"
+                    className="w-full px-3 md:px-4 py-1.5 md:py-2 rounded-lg text-left transition-all duration-200 flex items-center gap-2 md:gap-3 hover:bg-gray-50 text-gray-700"
                   >
-                    <span className="text-lg">🌐</span>
-                    <span className="font-medium">Apply to entire website</span>
-                    <ChevronRight className="w-4 h-4 text-gray-400 ml-auto" />
+                    <span className="text-base md:text-lg">🌐</span>
+                    <span className="font-medium text-sm md:text-base">Apply to entire website</span>
+                    <ChevronRight className="w-3.5 h-3.5 md:w-4 md:h-4 text-gray-400 ml-auto" />
                   </button>
                 </div>
               </div>
@@ -596,15 +595,15 @@ export const ChatBot = ({ language: appLanguage, onLanguageChange: changeAppLang
 
           {/* Messages */}
           {!isMinimized && (
-            <div className="flex-1 overflow-y-auto p-6 bg-gradient-to-b from-gray-50 to-white">
-              <div className="space-y-4">
+            <div className="flex-1 overflow-y-auto p-4 md:p-6 bg-gradient-to-b from-gray-50 to-white">
+              <div className="space-y-3 md:space-y-4">
                 {messages.map((message) => (
                   <div
                     key={message.id}
                     className={`flex ${message.isUser ? 'justify-end' : 'justify-start'} animate-in fade-in duration-300`}
                   >
                     <div
-                      className={`max-w-[80%] rounded-2xl px-4 py-3 transition-all duration-300 ${
+                      className={`max-w-[85%] md:max-w-[80%] rounded-2xl px-3 md:px-4 py-2 md:py-3 transition-all duration-300 ${
                         message.isUser
                           ? 'bg-gradient-to-r from-red-600 to-red-500 text-white rounded-br-none shadow-lg hover:shadow-xl transform hover:scale-105'
                           : message.isTyping
@@ -615,19 +614,19 @@ export const ChatBot = ({ language: appLanguage, onLanguageChange: changeAppLang
                       {message.isTyping ? (
                         <div className="flex items-center gap-2">
                           <div className="flex space-x-1">
-                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                            <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                            <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                            <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                           </div>
-                          <span className="text-sm text-gray-500">
+                          <span className="text-xs md:text-sm text-gray-500">
                             {chatLanguage === 'en' ? 'AI is typing...' : chatLanguage === 'es' ? 'IA escribiendo...' : 'IA digitando...'}
                           </span>
                         </div>
                       ) : (
                         <>
-                          <p className="text-sm whitespace-pre-line">{message.text}</p>
-                          <p className={`text-xs mt-2 ${message.isUser ? 'text-white/70' : 'text-gray-500'} flex items-center gap-1`}>
-                            {message.isUser ? <User className="w-3 h-3" /> : <Bot className="w-3 h-3" />}
+                          <p className="text-xs md:text-sm whitespace-pre-line">{message.text}</p>
+                          <p className={`text-xs mt-1 md:mt-2 ${message.isUser ? 'text-white/70' : 'text-gray-500'} flex items-center gap-1`}>
+                            {message.isUser ? <User className="w-2.5 h-2.5 md:w-3 md:h-3" /> : <Bot className="w-2.5 h-2.5 md:w-3 md:h-3" />}
                             {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                           </p>
                         </>
@@ -638,9 +637,9 @@ export const ChatBot = ({ language: appLanguage, onLanguageChange: changeAppLang
                 
                 {/* Options */}
                 {currentOptions.length > 0 && (
-                  <div className="space-y-3 pt-4 animate-in fade-in duration-500">
-                    <p className="text-sm text-gray-500 mb-3 flex items-center gap-2">
-                      <Sparkles className="w-4 h-4 text-red-500" />
+                  <div className="space-y-2 md:space-y-3 pt-3 md:pt-4 animate-in fade-in duration-500">
+                    <p className="text-xs md:text-sm text-gray-500 mb-2 md:mb-3 flex items-center gap-2">
+                      <Sparkles className="w-3.5 h-3.5 md:w-4 md:h-4 text-red-500" />
                       {chatLanguage === 'en' 
                         ? 'Choose an option:' 
                         : chatLanguage === 'es' 
@@ -655,12 +654,12 @@ export const ChatBot = ({ language: appLanguage, onLanguageChange: changeAppLang
                         <button
                           key={optionId}
                           onClick={() => handleOptionClick(optionId)}
-                          className="w-full text-left p-4 bg-white border border-gray-200 rounded-xl hover:border-red-300 hover:bg-red-50 transition-all duration-300 group flex items-center justify-between transform hover:scale-[1.02] hover:shadow-md"
+                          className="w-full text-left p-3 md:p-4 bg-white border border-gray-200 rounded-xl hover:border-red-300 hover:bg-red-50 transition-all duration-300 group flex items-center justify-between transform hover:scale-[1.02] hover:shadow-md"
                         >
-                          <span className="text-sm font-medium text-gray-800 group-hover:text-red-600 transition-colors">
+                          <span className="text-xs md:text-sm font-medium text-gray-800 group-hover:text-red-600 transition-colors truncate">
                             {option.responses[chatLanguage]}
                           </span>
-                          <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-red-500 group-hover:translate-x-1 transition-transform" />
+                          <ChevronRight className="w-3.5 h-3.5 md:w-4 md:h-4 text-gray-400 group-hover:text-red-500 group-hover:translate-x-1 transition-transform flex-shrink-0 ml-2" />
                         </button>
                       );
                     })}
@@ -674,15 +673,15 @@ export const ChatBot = ({ language: appLanguage, onLanguageChange: changeAppLang
 
           {/* Footer */}
           {!isMinimized && (
-            <div className="p-4 bg-white border-t border-gray-200 rounded-b-2xl">
+            <div className="p-3 md:p-4 bg-white border-t border-gray-200 rounded-b-2xl">
               <p className="text-xs text-gray-500 text-center flex items-center justify-center gap-2">
-                <Sparkles className="w-3 h-3 text-red-500" />
+                <Sparkles className="w-2.5 h-2.5 md:w-3 md:h-3 text-red-500" />
                 {chatLanguage === 'en' 
                   ? 'Powered by LE Robotics AI' 
                   : chatLanguage === 'es' 
                   ? 'Impulsado por IA de LE Robotics' 
                   : 'Desenvolvido por LE Robotics IA'}
-                <span className="text-xs px-2 py-0.5 bg-gray-100 rounded-full">
+                <span className="text-xs px-1.5 py-0.5 md:px-2 md:py-0.5 bg-gray-100 rounded-full hidden sm:inline">
                   {getLanguageFlag(chatLanguage)}
                 </span>
               </p>
