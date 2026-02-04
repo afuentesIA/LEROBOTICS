@@ -11,7 +11,6 @@ interface NavigationProps {
 
 export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
   const [showLangMenu, setShowLangMenu] = useState(false);
   const [showResourcesMenu, setShowResourcesMenu] = useState(false);
   const [isResourcesMenuHovered, setIsResourcesMenuHovered] = useState(false);
@@ -24,16 +23,7 @@ export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const t = translations[language];
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      setIsScrolled(scrollY > 20);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
+  // Eliminamos el efecto de scroll ya que siempre queremos el diseño scrolled
   useEffect(() => {
     setIsOpen(false);
     setShowLangMenu(false);
@@ -139,10 +129,7 @@ export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
     }
   ];
 
-  const isHome = location.pathname === '/';
-  const isDark = isHome && !isScrolled;
   const isResourcesActive = location.pathname === '/resources';
-  const isLoginPage = location.pathname === '/support-login' || location.pathname === '/client-login';
 
   const currentLanguage = languages.find(lang => lang.code === language);
 
@@ -157,15 +144,10 @@ export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
   return (
     <nav
       ref={navRef}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled 
-          ? 'bg-white/95 backdrop-blur-xl shadow-lg border-b border-gray-200/50' 
-          : 'bg-transparent'
-      }`}
+      className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl shadow-lg border-b border-gray-200/50"
     >
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          {/* Logo */}
           <Link
             to="/"
             className="flex items-center transition-all duration-300 hover:opacity-80 flex-shrink-0 group"
@@ -173,11 +155,7 @@ export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
             <img
               src="/img/Logo.png"
               alt="RoboVision"
-              className={`transition-all duration-500 ${
-                isScrolled ? 'h-14' : 'h-16 lg:h-20'
-              } ${
-                isDark ? 'brightness-0 invert' : ''
-              } group-hover:scale-105`}
+              className="h-40 transition-all duration-500 group-hover:scale-105"
             />
           </Link>
 
@@ -200,14 +178,10 @@ export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
                       className={`relative px-6 py-3 text-base font-semibold transition-all duration-300 rounded-2xl mx-1 group flex items-center gap-1 ${
                         isResourcesActive
                           ? 'text-white bg-gradient-to-r from-red-600 to-red-500 shadow-lg shadow-red-500/25'
-                          : isDark
-                          ? 'text-white/90 hover:text-white hover:bg-white/10'
                           : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100/80'
                       } ${
                         showResourcesMenu && !isResourcesActive
-                          ? isDark
-                            ? 'bg-white/10 text-white'
-                            : 'bg-gray-100/80 text-gray-900'
+                          ? 'bg-gray-100/80 text-gray-900'
                           : ''
                       }`}
                     >
@@ -282,8 +256,6 @@ export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
                     className={`relative px-6 py-3 text-base font-semibold transition-all duration-300 rounded-2xl mx-1 group ${
                       location.pathname === item.path
                         ? 'text-white bg-gradient-to-r from-red-600 to-red-500 shadow-lg shadow-red-500/25'
-                        : isDark
-                        ? 'text-white/90 hover:text-white hover:bg-white/10'
                         : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100/80'
                     }`}
                   >
@@ -307,11 +279,9 @@ export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
                   e.stopPropagation();
                   setShowLangMenu(prev => !prev);
                 }}
-                className={`flex items-center gap-3 px-4 py-2.5 rounded-2xl transition-all duration-300 border ${
-                  isDark 
-                    ? 'text-white border-white/20 hover:bg-white/10' 
-                    : 'text-gray-700 border-gray-300 hover:bg-gray-100'
-                } ${showLangMenu ? (isDark ? 'bg-white/10' : 'bg-gray-100') : ''}`}
+                className={`flex items-center gap-3 px-4 py-2.5 rounded-2xl transition-all duration-300 border text-gray-700 border-gray-300 hover:bg-gray-100 ${
+                  showLangMenu ? 'bg-gray-100' : ''
+                }`}
               >
                 {currentLanguage && (
                   <img 
@@ -384,9 +354,7 @@ export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
                 setIsOpen(!isOpen);
                 setShowLangMenu(false);
               }}
-              className={`p-3 rounded-xl transition-colors ${
-                isDark ? 'text-white hover:bg-white/10' : 'text-gray-700 hover:bg-gray-100'
-              }`}
+              className="p-3 rounded-xl transition-colors text-gray-700 hover:bg-gray-100"
             >
               {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -408,56 +376,57 @@ export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
             {navItems.map((item) => (
               <div key={item.path}>
                 {item.hasSubmenu ? (
-                  <div className="space-y-2">
+                  <div className="space-y-0">
+                    {/* EN MÓVIL: Mostramos directamente el enlace a Resources (sin toggle) */}
                     <Link
                       to={item.path}
-                      className={`block w-full text-left px-6 py-4 text-lg font-semibold rounded-xl transition-all duration-300 flex items-center justify-between ${
+                      className={`block w-full text-left px-6 py-4 text-lg font-semibold rounded-xl transition-all duration-300 ${
                         isResourcesActive
                           ? 'bg-gradient-to-r from-red-600 to-red-500 text-white shadow-lg'
                           : 'text-gray-700 hover:bg-gray-100'
                       }`}
-                      onClick={() => {
-                        if (!showResourcesMenu) {
-                          setShowResourcesMenu(true);
-                        } else {
-                          setShowResourcesMenu(false);
-                        }
-                      }}
+                      onClick={() => setIsOpen(false)}
                     >
-                      <span>{item.label}</span>
-                      <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${
-                        showResourcesMenu ? 'rotate-180' : ''
-                      }`} />
+                      <div className="flex items-center justify-between">
+                        <span>{item.label}</span>
+                        <ChevronDown className="w-5 h-5 text-gray-500" />
+                      </div>
                     </Link>
                     
-                    {showResourcesMenu && (
-                      <div className="pl-8 space-y-2">
-                        {resourcesSubmenu.map((subItem) => (
-                          <Link
-                            key={subItem.path}
-                            to={subItem.path}
-                            className={`block w-full text-left px-6 py-3 text-base font-medium rounded-xl transition-all duration-300 flex items-center gap-3 ${
-                              location.pathname === subItem.path
-                                ? 'bg-gradient-to-r from-red-600 to-red-500 text-white shadow-lg'
-                                : 'text-gray-700 hover:bg-red-50'
-                            }`}
-                            onClick={() => setIsOpen(false)}
-                          >
-                            <div className={`p-2 rounded-lg ${
-                              location.pathname === subItem.path 
-                                ? 'bg-white/20 text-white' 
-                                : `${subItem.bgColor} ${subItem.color}`
-                            }`}>
-                              {subItem.icon}
-                            </div>
-                            <div className="flex-1">
-                              <div className="font-medium">{subItem.label}</div>
-                              <div className="text-xs text-gray-500 mt-1">{subItem.description}</div>
-                            </div>
-                          </Link>
-                        ))}
+                    {/* EN MÓVIL: Submenú SIEMPRE visible debajo de Resources */}
+                    <div className="pl-8 space-y-1 mt-1">
+                      {/* Separador visual */}
+                      <div className="px-4 py-1">
+                        <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+                          Secure Access
+                        </div>
                       </div>
-                    )}
+                      
+                      {resourcesSubmenu.map((subItem) => (
+                        <Link
+                          key={subItem.path}
+                          to={subItem.path}
+                          className={`block w-full text-left px-6 py-3 text-base font-medium rounded-xl transition-all duration-300 flex items-center gap-3 ${
+                            location.pathname === subItem.path
+                              ? 'bg-gradient-to-r from-red-600 to-red-500 text-white shadow-lg'
+                              : 'text-gray-700 hover:bg-red-50'
+                          }`}
+                          onClick={() => setIsOpen(false)}
+                        >
+                          <div className={`p-2 rounded-lg ${
+                            location.pathname === subItem.path 
+                              ? 'bg-white/20 text-white' 
+                              : `${subItem.bgColor} ${subItem.color}`
+                          }`}>
+                            {subItem.icon}
+                          </div>
+                          <div className="flex-1">
+                            <div className="font-medium">{subItem.label}</div>
+                            <div className="text-xs text-gray-500 mt-1">{subItem.description}</div>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
                   </div>
                 ) : (
                   <Link
