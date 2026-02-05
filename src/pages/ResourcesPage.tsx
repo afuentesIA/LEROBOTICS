@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { 
   Book, Video, FileText, Code, Download, ExternalLink, 
   Search, ChevronRight, Play, ArrowRight, Filter, X,
-  Sparkles, Zap, TrendingUp, Globe, Cpu
+  Sparkles, Zap, TrendingUp, Globe, Camera, Cpu
 } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -43,7 +43,7 @@ export const ResourcesPage = ({ language }: ResourcesPageProps) => {
 
       // Animación de partículas flotantes en hero
       const particles = gsap.utils.toArray('.floating-particle');
-      particles.forEach((particle: HTMLElement, i: number) => {
+      particles.forEach((particle: any, i) => {
         gsap.to(particle, {
           y: `+=${Math.random() * 100 - 50}`,
           x: `+=${Math.random() * 100 - 50}`,
@@ -69,7 +69,7 @@ export const ResourcesPage = ({ language }: ResourcesPageProps) => {
       });
 
       // Animación de los iconos de categoría con efecto de aparecimiento
-      gsap.utils.toArray('.category-icon').forEach((icon: HTMLElement, index: number) => {
+      gsap.utils.toArray('.category-icon').forEach((icon: any, index) => {
         gsap.from(icon, {
           scale: 0,
           rotation: -180,
@@ -85,7 +85,7 @@ export const ResourcesPage = ({ language }: ResourcesPageProps) => {
       });
 
       // Animación de las tarjetas de categoría con efecto hover 3D mejorado
-      gsap.utils.toArray('.category-card').forEach((card: HTMLElement) => {
+      gsap.utils.toArray('.category-card').forEach((card: any) => {
         // Animación de entrada
         gsap.from(card, {
           scrollTrigger: {
@@ -143,7 +143,7 @@ export const ResourcesPage = ({ language }: ResourcesPageProps) => {
       });
 
       // Animación de recursos con efecto de flotación
-      gsap.utils.toArray('.resource-item').forEach((item: HTMLElement, index: number) => {
+      gsap.utils.toArray('.resource-item').forEach((item: any, index) => {
         // Animación de entrada
         gsap.from(item, {
           scrollTrigger: {
@@ -178,7 +178,7 @@ export const ResourcesPage = ({ language }: ResourcesPageProps) => {
       });
 
       // Animación de elementos decorativos rojos
-      gsap.utils.toArray('.red-element').forEach((element: HTMLElement, index: number) => {
+      gsap.utils.toArray('.red-element').forEach((element: any, index) => {
         gsap.to(element, {
           scale: 1.1,
           opacity: 0.8,
@@ -192,7 +192,7 @@ export const ResourcesPage = ({ language }: ResourcesPageProps) => {
 
       // Animación de olas en el hero
       const waves = gsap.utils.toArray('.wave');
-      waves.forEach((wave: HTMLElement, index: number) => {
+      waves.forEach((wave: any, index) => {
         gsap.to(wave, {
           x: '+=100',
           duration: 15 + index * 5,
@@ -473,7 +473,7 @@ export const ResourcesPage = ({ language }: ResourcesPageProps) => {
             <div className="text-center">
               <div className="text-4xl font-bold text-white mb-2 flex items-center justify-center">
                 <Globe className="w-6 h-6 text-red-400 mr-2" />
-                3+
+               3+
               </div>
               <div className="text-gray-300">Languages</div>
             </div>
@@ -773,6 +773,18 @@ export const ResourcesPage = ({ language }: ResourcesPageProps) => {
             </div>
           </div>
         </div>
+
+        {/* Footer */}
+        <footer className="bg-white border-t border-gray-200 py-12">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center">
+              <Camera className="w-8 h-8 text-red-600 mx-auto mb-4" />
+              <p className="text-gray-600">
+                © 2024 AI Vision. {language === 'en' ? 'All rights reserved.' : language === 'es' ? 'Todos los derechos reservados.' : 'Todos os direitos reservados.'}
+              </p>
+            </div>
+          </div>
+        </footer>
       </div>
     </div>
   );
