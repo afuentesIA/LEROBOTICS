@@ -772,7 +772,19 @@ export const ResourcesPage = ({ language }: ResourcesPageProps) => {
               </button>
             </div>
           </div>
-        </div> 
+        </div>
+
+        {/* Footer */}
+        <footer className="bg-white border-t border-gray-200 py-12">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center">
+              <Camera className="w-8 h-8 text-red-600 mx-auto mb-4" />
+              <p className="text-gray-600">
+                © 2024 AI Vision. {language === 'en' ? 'All rights reserved.' : language === 'es' ? 'Todos los derechos reservados.' : 'Todos os direitos reservados.'}
+              </p>
+            </div>
+          </div>
+        </footer>
       </div>
     </div>
   );
