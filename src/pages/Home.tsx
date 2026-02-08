@@ -301,34 +301,34 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
 
   const features = [
     {
-      icon: <Camera className="w-10 h-10" />,
-      title: language === 'en' ? 'AI-Powered Welding' : language === 'es' ? 'Soldadura con IA' : 'Soldagem com IA',
-      description:
-        language === 'en'
-          ? 'Machine learning for adaptive pipeline and industrial welding across North and Latin America'
-          : language === 'es'
-          ? 'Aprendizaje automático para soldadura industrial y de tuberías adaptativa en Norteamérica y Latinoamérica'
-          : 'Aprendizado de máquina para soldadura industrial e de tubulações adaptativa na América do Norte e Latina',
-    },
-    {
       icon: <Zap className="w-10 h-10" />,
-      title: language === 'en' ? 'Certified Compliance' : language === 'es' ? 'Cumplimiento Certificado' : 'Conformidade Certificada',
+      title: language === 'en' ? 'AI-Driven Robotic Welding' : language === 'es' ? 'Soldadura Robótica Impulsada por IA' : 'Soldagem Robótica Impulsada por IA',
       description:
         language === 'en'
-          ? 'Meeting CSA (Canada), NR-12 (Brazil), and NOM (Mexico) safety standards'
+          ? 'Adaptive welding that learns and adjusts to real production conditions for maximum consistency'
           : language === 'es'
-          ? 'Cumplimiento de estándares CSA (Canadá), NR-12 (Brasil) y NOM (México)'
-          : 'Atendimento aos padrões CSA (Canadá), NR-12 (Brasil) e NOM (México)',
+          ? 'Soldadura adaptativa que aprende y se ajusta a las condiciones reales de producción'
+          : 'Soldagem adaptativa que aprende e se ajusta às condições reais de produção',
     },
     {
       icon: <Eye className="w-10 h-10" />,
-      title: language === 'en' ? '3D Vision Welding' : language === 'es' ? 'Soldadura con Visión 3D' : 'Soldagem com Visão 3D',
+      title: language === 'en' ? 'Industrial-Grade Integration' : language === 'es' ? 'Integración de Grado Industrial' : 'Integração de Nível Industrial',
       description:
         language === 'en'
-          ? 'Precision scanning for complex weld paths in all industrial environments'
+          ? 'Seamless deployment with existing systems. CSA, NR-12, and NOM certified'
           : language === 'es'
-          ? 'Escaneo de precisión para trayectorias de soldadura complejas en todos los entornos industriales'
-          : 'Varredura de precisão para trajetórias de solda complexas em todos os ambientes industriais',
+          ? 'Despliegue sin interrupciones. Certificado en CSA, NR-12 y NOM'
+          : 'Implantação perfeita. Certificado em CSA, NR-12 e NOM',
+    },
+    {
+      icon: <Camera className="w-10 h-10" />,
+      title: language === 'en' ? '3D Vision & Real-Time Precision' : language === 'es' ? 'Visión 3D y Precisión en Tiempo Real' : 'Visão 3D e Precisão em Tempo Real',
+      description:
+        language === 'en'
+          ? 'Advanced scanning at 2000 FPS with ±0.05mm precision for complex weld paths in any environment'
+          : language === 'es'
+          ? 'Escaneo avanzado a 2000 FPS con precisión ±0.05mm para trayectorias complejas'
+          : 'Varredura avançada a 2000 FPS com precisão ±0.05mm para trajetórias complexas',
     },
   ];
 
@@ -394,44 +394,44 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
               <div className="max-w-4xl">
                 <div className="overflow-hidden mb-6">
                   <h1 className="hero-text-line text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white tracking-tighter leading-[0.9]">
-                    {language === 'en' 
-                      ? 'AI-Powered Welding Automation' 
-                      : language === 'es' 
-                      ? 'Automatización de Soldadura con IA' 
-                      : 'Automação de Soldagem com IA'}
+                    {language === 'en'
+                      ? 'Intelligent Robotic Welding'
+                      : language === 'es'
+                      ? 'Soldadura Robótica Inteligente'
+                      : 'Soldagem Robótica Inteligente'}
                   </h1>
                 </div>
                 <div className="overflow-hidden mb-8">
                   <h2 className="hero-text-line text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-white/95 tracking-tight">
                     {language === 'en'
-                      ? 'Industrial Welding Robotics for America'
+                      ? 'Precision, consistency, reliability for industrial production'
                       : language === 'es'
-                      ? 'Robótica de Soldadura Industrial para América'
-                      : 'Robótica de Soldagem Industrial para América'}
+                      ? 'Precisión, consistencia, confiabilidad para producción industrial'
+                      : 'Precisão, consistência, confiabilidade para produção industrial'}
                   </h2>
                 </div>
                 <div className="overflow-hidden mb-12">
                   <p className="hero-text-line text-lg sm:text-xl md:text-2xl text-white/90 leading-relaxed font-light max-w-2xl">
                     {language === 'en'
-                      ? 'Precision AI welding solutions with local support in Canada, USA, Mexico and Brazil'
+                      ? 'AI-powered welding solutions trusted across Canada, USA, Mexico, and Brazil'
                       : language === 'es'
-                      ? 'Soluciones de soldadura IA de precisión con soporte local en Canadá, USA, México y Brasil'
-                      : 'Soluções de soldagem IA de precisão com suporte local no Canadá, EUA, México e Brasil'}
+                      ? 'Soluciones de soldadura con IA probadas en Canadá, USA, México y Brasil'
+                      : 'Soluções de soldagem com IA comprovadas no Canadá, EUA, México e Brasil'}
                   </p>
                 </div>
-                <div className="hero-cta flex flex-col sm:flex-row gap-5">
+                <div className="hero-cta flex flex-col sm:flex-row gap-5 pt-4">
                   <Link
                     to="/solutions"
-                    className="inline-flex items-center justify-center gap-3 px-10 py-5 bg-gradient-to-r from-red-600 to-red-500 text-white text-lg font-semibold rounded-full hover:from-red-500 hover:to-red-400 transition-all duration-500 hover:scale-105 hover:shadow-[0_20px_60px_rgba(220,38,38,0.4)] group"
+                    className="inline-flex items-center justify-center gap-3 px-12 py-6 bg-gradient-to-r from-red-600 to-red-500 text-white text-lg font-semibold rounded-full hover:from-red-500 hover:to-red-400 transition-all duration-500 hover:scale-105 hover:shadow-[0_20px_60px_rgba(220,38,38,0.4)] group"
                   >
-                    <span>{t.hero.cta}</span>
+                    <span>
+                      {language === 'en'
+                        ? 'Request a Technical Consultation'
+                        : language === 'es'
+                        ? 'Solicitar Consulta Técnica'
+                        : 'Solicitar Consulta Técnica'}
+                    </span>
                     <ChevronRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                  <Link
-                    to="/about"
-                    className="inline-flex items-center justify-center px-10 py-5 border-2 border-white text-white text-lg font-semibold rounded-full hover:bg-white hover:text-black transition-all duration-500 hover:scale-105 backdrop-blur-sm"
-                  >
-                    {t.hero.learnMore}
                   </Link>
                 </div>
               </div>
@@ -444,14 +444,18 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <div className="text-center mb-20">
             <h2 className="text-5xl sm:text-6xl md:text-7xl font-bold text-black mb-8 tracking-tight">
-              {language === 'en' ? 'AI Welding Technology' : language === 'es' ? 'Tecnología de Soldadura IA' : 'Tecnologia de Soldagem IA'}
+              {language === 'en'
+                ? 'Why LE Robotics'
+                : language === 'es'
+                ? 'Por qué LE Robotics'
+                : 'Por que LE Robotics'}
             </h2>
             <p className="text-xl sm:text-2xl text-gray-600 max-w-4xl mx-auto font-light leading-relaxed">
               {language === 'en'
-                ? 'Serving Canada, USA, Mexico and Brazil with certified welding automation solutions'
+                ? 'We design and integrate intelligent robotic systems built for real industrial production'
                 : language === 'es'
-                ? 'Sirviendo a Canadá, USA, México y Brasil con soluciones certificadas de automatización de soldadura'
-                : 'Atendendo Canadá, EUA, México e Brasil com soluções certificadas de automação de soldagem'}
+                ? 'Diseñamos e integramos sistemas robóticos inteligentes construidos para producción industrial real'
+                : 'Projetamos e integramos sistemas robóticos inteligentes construídos para produção industrial real'}
             </p>
           </div>
 
@@ -566,18 +570,18 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
               </div>
               <div className="np-title">
                 <h2 className="text-5xl sm:text-6xl md:text-7xl font-bold text-black tracking-tight leading-[1.25]">
-                  {language === 'en' ? 'No Programming' : language === 'es' ? 'Sin Programación' : 'Sem Programação'}
+                  {language === 'en' ? 'Start Production' : language === 'es' ? 'Comienza la Producción' : 'Inicie a Produção'}
                   <span className="block text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-500 mt-8 pb-3">
-                    {language === 'en' ? 'Required' : language === 'es' ? 'Requerida' : 'Necessária'}
+                    {language === 'en' ? 'From Day One' : language === 'es' ? 'Desde el Primer Día' : 'Desde o Primeiro Dia'}
                   </span>
                 </h2>
               </div>
               <p className="np-description text-xl sm:text-2xl text-gray-600 leading-relaxed font-light">
                 {language === 'en'
-                  ? 'Pre-installed welding programs and intuitive controls let you start welding immediately. No complex programming or specialized training needed'
+                  ? 'Pre-loaded welding sequences and intuitive interface. Start production immediately with zero ramp-up time'
                   : language === 'es'
-                  ? 'Programas de soldadura preinstalados y controles intuitivos te permiten comenzar a soldar inmediatamente. Sin programación compleja ni entrenamiento especializado'
-                  : 'Programas de soldagem pré-instalados e controles intuitivos permitem que você comece a soldar imediatamente. Sem programação complexa ou treinamento especializado'}
+                  ? 'Secuencias de soldadura precargadas e interfaz intuitiva. Comienza la producción inmediatamente sin tiempo de adaptación'
+                  : 'Sequências de soldagem pré-carregadas e interface intuitiva. Inicie a produção imediatamente sem tempo de ramp-up'}
               </p>
               <div className="space-y-4 pt-4">
                 <div className="np-feature-card flex items-start gap-4 p-4 bg-gray-50 rounded-2xl border border-gray-100 hover:bg-white hover:shadow-lg hover:scale-105 transition-all duration-300">
@@ -671,14 +675,18 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative">
           <div className="text-center mb-32">
             <h2 className="text-5xl sm:text-6xl md:text-7xl font-bold text-white mb-8 tracking-tight">
-              {language === 'en' ? 'Industrial Applications' : language === 'es' ? 'Aplicaciones Industriales' : 'Aplicações Industriais'}
+              {language === 'en'
+                ? 'Real-World Proven Solutions'
+                : language === 'es'
+                ? 'Soluciones Probadas en el Mundo Real'
+                : 'Soluções Comprovadas no Mundo Real'}
             </h2>
             <p className="text-xl sm:text-2xl text-white/80 max-w-4xl mx-auto font-light">
               {language === 'en'
-                ? 'Our welding robotics for oil & gas, manufacturing, and industrial applications'
+                ? 'Deployed across oil & gas, manufacturing, and heavy industry'
                 : language === 'es'
-                ? 'Nuestra robótica de soldadura para petróleo y gas, manufactura y aplicaciones industriales'
-                : 'Nossa robótica de soldagem para petróleo e gás, manufatura e aplicações industriais'}
+                ? 'Implementado en petróleo y gas, manufactura e industria pesada'
+                : 'Implementado em petróleo e gás, manufatura e indústria pesada'}
             </p>
           </div>
 
@@ -691,14 +699,14 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
                   </span>
                 </div>
                 <h3 className="text-5xl sm:text-6xl md:text-7xl font-bold text-white tracking-tight leading-none">
-                  {language === 'en' ? 'Pipeline Welding' : language === 'es' ? 'Soldadura de Tuberías' : 'Soldagem de Tubulações'}
+                  {language === 'en' ? 'Pipeline & Pressure Vessels' : language === 'es' ? 'Tuberías y Recipientes a Presión' : 'Tubulações e Recipientes Pressurizados'}
                 </h3>
                 <p className="text-xl sm:text-2xl text-white/90 leading-relaxed font-light">
                   {language === 'en'
-                    ? 'AI-powered welding solutions for Canadian oilfields, Brazilian pipelines, and Mexican industrial applications'
+                    ? 'Precision pipeline welding with certified quality. Designed for harsh field conditions and maximum uptime'
                     : language === 'es'
-                    ? 'Soluciones de soldadura con IA para campos petroleros canadienses, tuberías brasileñas y aplicaciones industriales mexicanas'
-                    : 'Soluções de soldagem com IA para campos de petróleo canadenses, tubulações brasileiras e aplicações industriais mexicanas'}
+                    ? 'Soldadura de tuberías de precisión con calidad certificada. Diseñada para condiciones difíciles y máxima disponibilidad'
+                    : 'Soldagem de tubulação de precisão com qualidade certificada. Projetada para condições severas e máximo tempo de operação'}
                 </p>
                 <div className="space-y-4 pt-4">
                   {applications.map((app, index) => (
@@ -723,18 +731,18 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
               <div className="lg:order-2 space-y-8">
                 <div className="inline-block">
                   <span className="text-red-500 text-lg font-semibold tracking-wide uppercase">
-                    {language === 'en' ? 'Manufacturing' : language === 'es' ? 'Manufactura' : 'Manufatura'}
+                    {language === 'en' ? 'Heavy Manufacturing' : language === 'es' ? 'Manufactura Pesada' : 'Manufatura Pesada'}
                   </span>
                 </div>
                 <h3 className="text-5xl sm:text-6xl md:text-7xl font-bold text-white tracking-tight leading-none">
-                  {language === 'en' ? 'Industrial Fabrication' : language === 'es' ? 'Fabricación Industrial' : 'Fabrição Industrial'}
+                  {language === 'en' ? 'Automotive & Fabrication' : language === 'es' ? 'Automotriz y Fabricación' : 'Automotivo e Fabricação'}
                 </h3>
                 <p className="text-xl sm:text-2xl text-white/90 leading-relaxed font-light">
                   {language === 'en'
-                    ? 'Precision robotic welding for automotive, aerospace, and heavy equipment manufacturing across the Americas'
+                    ? 'High-volume production welding with repeatability and consistency. Built for automotive, aerospace, and metal fabrication'
                     : language === 'es'
-                    ? 'Soldadura robótica de precisión para manufactura automotriz, aeroespacial y equipos pesados en las Américas'
-                    : 'Soldagem robótica de precisão para manufatura automotiva, aeroespacial e equipamentos pesados nas Américas'}
+                    ? 'Soldadura de producción en alto volumen con repetibilidad y consistencia. Construida para automotriz, aeroespacial y fabricación'
+                    : 'Soldagem de produção em alto volume com repetibilidade e consistência. Construída para automotivo, aeroespacial e fabricação'}
                 </p>
                 <Link
                   to="/applications"
@@ -760,26 +768,36 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
               to="/contact"
               className="inline-flex items-center justify-center gap-3 px-12 py-6 bg-gradient-to-r from-red-600 to-red-500 text-white text-xl font-semibold rounded-full hover:from-red-500 hover:to-red-400 transition-all duration-500 hover:scale-105 hover:shadow-[0_30px_80px_rgba(220,38,38,0.4)] group"
             >
-              <span>{language === 'en' ? 'Get Local Support' : language === 'es' ? 'Obtener Soporte Local' : 'Obter Suporte Local'}</span>
+              <span>
+                {language === 'en'
+                  ? 'Request a Demo'
+                  : language === 'es'
+                  ? 'Solicitar una Demo'
+                  : 'Solicitar uma Demo'}
+              </span>
               <ChevronRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Sección de contacto */}
+      {/* Contact Section */}
       <section ref={contactRef} className="py-40 bg-gray-50 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <div className="text-center mb-20">
             <h2 className="text-5xl sm:text-6xl md:text-7xl font-bold text-black mb-8 tracking-tight">
-              {language === 'en' ? 'Need Welding Automation?' : language === 'es' ? '¿Necesita Automatización?' : 'Precisa de Automação?'}
+              {language === 'en'
+                ? 'Let\'s Build Your Solution'
+                : language === 'es'
+                ? 'Construyamos tu Solución'
+                : 'Vamos Construir sua Solução'}
             </h2>
             <p className="text-xl sm:text-2xl text-gray-600 max-w-3xl mx-auto font-light leading-relaxed">
               {language === 'en'
-                ? 'We serve Canada, Brazil, and Mexico with local support and certified solutions'
+                ? 'Talk to an engineer. Tell us about your production challenges'
                 : language === 'es'
-                ? 'Servimos a Canadá, Brasil y México con soporte local y soluciones certificadas'
-                : 'Atendemos Canadá, Brasil e México com suporte local e soluções certificadas'}
+                ? 'Habla con un ingeniero. Cuéntanos sobre tus desafíos de producción'
+                : 'Fale com um engenheiro. Conte-nos sobre seus desafios de produção'}
             </p>
           </div>
 
@@ -932,7 +950,11 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
                     type="submit"
                     className="w-full py-6 bg-gradient-to-r from-red-600 to-red-500 text-white text-xl font-semibold rounded-2xl hover:from-red-500 hover:to-red-400 transition-all duration-500 hover:scale-[1.02] hover:shadow-[0_20px_60px_rgba(220,38,38,0.3)] active:scale-95"
                   >
-                    Get Welding Robot Quote
+                    {language === 'en'
+                      ? 'Talk to an Engineer'
+                      : language === 'es'
+                      ? 'Hablar con un Ingeniero'
+                      : 'Falar com um Engenheiro'}
                   </button>
                 </form>
               </div>
