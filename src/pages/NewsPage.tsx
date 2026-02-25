@@ -15,6 +15,14 @@ export const NewsPage = ({ language }: NewsPageProps) => {
   const t = translations[language];
   const pageRef = useRef<HTMLDivElement>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [heroImageLoaded, setHeroImageLoaded] = useState(false);
+  const [isIOS, setIsIOS] = useState(false);
+
+  // Detectar si es iOS
+  useEffect(() => {
+    const userAgent = window.navigator.userAgent;
+    setIsIOS(/iPad|iPhone|iPod/.test(userAgent));
+  }, []);
 
   // Hero Data
   const heroData = {
@@ -25,8 +33,19 @@ export const NewsPage = ({ language }: NewsPageProps) => {
       : language === 'es'
       ? "Manténgase informado sobre nuestros últimos logros, próximos eventos e innovaciones revolucionarias en tecnología de visión IA."
       : "Mantenha-se informado sobre nossas últimas conquistas, próximos eventos e inovações revolucionárias em tecnologia de visão IA.",
-    backgroundImage: './img/hero2.png' // Imagen tenue para el hero
+    backgroundImage: './img/hero2.png'
   };
+
+  // Precargar la imagen del hero
+  useEffect(() => {
+    const img = new Image();
+    img.src = heroData.backgroundImage;
+    img.onload = () => setHeroImageLoaded(true);
+    img.onerror = () => {
+      console.log('Error loading hero image, usando fallback');
+      setHeroImageLoaded(true); // Igual marcamos como cargada para mostrar el fallback
+    };
+  }, []);
 
   // Past Events Data (Eventos en los que ya estuvimos)
   const pastEvents = [
@@ -227,17 +246,32 @@ export const NewsPage = ({ language }: NewsPageProps) => {
 
   return (
     <div ref={pageRef} className="min-h-screen bg-white">
-      {/* Hero Section con imagen tenue */}
-      <section 
-        className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative min-h-screen flex items-center"
-        style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('${heroData.backgroundImage}')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed'
-        }}
-      >
-        <div className="absolute inset-0 bg-black/20"></div>
+      {/* Hero Section con imagen tenue - Versión específica para iOS */}
+      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative min-h-screen flex items-center overflow-hidden">
+        {/* Fondo con imagen - diferente enfoque para iOS */}
+        <div 
+          className="absolute inset-0"
+          style={{
+            backgroundColor: '#1a1a1a', // Color de fondo mientras carga
+          }}
+        >
+          {/* Imagen de fondo como elemento img para mejor compatibilidad iOS */}
+          <img
+            src={heroData.backgroundImage}
+            alt=""
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+              heroImageLoaded ? 'opacity-100' : 'opacity-0'
+            }`}
+            style={{
+              objectPosition: 'center',
+              filter: 'brightness(0.7)' // Para el efecto de overlay
+            }}
+            onLoad={() => setHeroImageLoaded(true)}
+          />
+          {/* Overlay oscuro */}
+          <div className="absolute inset-0 bg-black/30" />
+        </div>
+
         <div className="max-w-6xl mx-auto text-center relative z-10">
           <div className="hero-title">
             <h1 className="text-7xl sm:text-8xl lg:text-9xl font-bold text-white tracking-tight leading-none mb-8">
@@ -410,7 +444,7 @@ export const NewsPage = ({ language }: NewsPageProps) => {
               <div className="live-card rounded-3xl overflow-hidden bg-gray-900">
                 <div className="relative aspect-video">
                   <img
-                    src="./img/livesoon.jpg" // Carátula para cuando no hay video
+                    src="./img/livesoon.jpg"
                     alt="Live Stream Cover"
                     className="w-full h-full object-cover"
                   />
