@@ -71,18 +71,20 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
         '-=0.6'
       );
 
+      // ANIMACIONES OPTIMIZADAS PARA LAS FEATURE CARDS (MÁS RÁPIDAS)
       gsap.utils.toArray('.feature-card').forEach((card, index) => {
         gsap.from(card as Element, {
           scrollTrigger: {
             trigger: card as Element,
             start: 'top 85%',
             end: 'top 40%',
-            scrub: 1.5,
+            scrub: 0.3,
           },
-          y: 120,
+          y: 80,
           opacity: 0,
-          scale: 0.85,
-          rotateX: 15,
+          scale: 0.9,
+          rotateX: 8,
+          duration: 0.6,
         });
       });
 
@@ -159,7 +161,6 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
               end: 'top 55%',
               scrub: 1,
               onEnter: () => {
-                // Animación del contador cuando entra en vista
                 if (index === 0) {
                   let count = 0;
                   const interval = setInterval(() => {
@@ -354,19 +355,19 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
   ];
 
   const countries = [
-    { value: 'canada', label: 'Canada' },
-    { value: 'usa', label: 'United States' },
-    { value: 'mexico', label: 'Mexico' },
-    { value: 'brazil', label: 'Brazil' },
-    { value: 'other', label: 'Other Country' },
+    { value: 'canada', label: language === 'en' ? 'Canada' : language === 'es' ? 'Canadá' : 'Canadá' },
+    { value: 'usa', label: language === 'en' ? 'United States' : language === 'es' ? 'Estados Unidos' : 'Estados Unidos' },
+    { value: 'mexico', label: language === 'en' ? 'Mexico' : language === 'es' ? 'México' : 'México' },
+    { value: 'brazil', label: language === 'en' ? 'Brazil' : language === 'es' ? 'Brasil' : 'Brasil' },
+    { value: 'other', label: language === 'en' ? 'Other Country' : language === 'es' ? 'Otro País' : 'Outro País' },
   ];
 
   const interests = [
-    { value: 'demo', label: 'Robotic Welding Demo' },
-    { value: 'training', label: 'Training Program' },
-    { value: 'quote', label: 'Custom Quote' },
-    { value: 'support', label: 'Technical Support' },
-    { value: 'other', label: 'Other' },
+    { value: 'demo', label: language === 'en' ? 'Robotic Welding Demo' : language === 'es' ? 'Demo de Soldadura Robótica' : 'Demonstração de Soldagem Robótica' },
+    { value: 'training', label: language === 'en' ? 'Training Program' : language === 'es' ? 'Programa de Entrenamiento' : 'Programa de Treinamento' },
+    { value: 'quote', label: language === 'en' ? 'Custom Quote' : language === 'es' ? 'Cotización Personalizada' : 'Cotação Personalizada' },
+    { value: 'support', label: language === 'en' ? 'Technical Support' : language === 'es' ? 'Soporte Técnico' : 'Suporte Técnico' },
+    { value: 'other', label: language === 'en' ? 'Other' : language === 'es' ? 'Otro' : 'Outro' },
   ];
 
   return (
@@ -421,17 +422,29 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
                 </div>
                 <div className="hero-cta flex flex-col sm:flex-row gap-5 pt-4">
                   <Link
-                    to="/solutions"
+                    to="/products"
                     className="inline-flex items-center justify-center gap-3 px-12 py-6 bg-gradient-to-r from-red-600 to-red-500 text-white text-lg font-semibold rounded-full hover:from-red-500 hover:to-red-400 transition-all duration-500 hover:scale-105 hover:shadow-[0_20px_60px_rgba(220,38,38,0.4)] group"
                   >
                     <span>
                       {language === 'en'
-                        ? 'Request a Technical Consultation'
+                        ? 'Explore AI Camera'
                         : language === 'es'
-                        ? 'Solicitar Consulta Técnica'
-                        : 'Solicitar Consulta Técnica'}
+                        ? 'Explorar Cámara IA'
+                        : 'Explorar Câmera IA'}
                     </span>
                     <ChevronRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                  <Link
+                    to="/about"
+                    className="inline-flex items-center justify-center gap-3 px-12 py-6 bg-transparent border-2 border-white/30 text-white text-lg font-semibold rounded-full hover:border-red-500 hover:bg-red-500/10 transition-all duration-500 group"
+                  >
+                    <span>
+                      {language === 'en'
+                        ? 'Learn More'
+                        : language === 'es'
+                        ? 'Saber Más'
+                        : 'Saiba Mais'}
+                    </span>
                   </Link>
                 </div>
               </div>
@@ -719,7 +732,7 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
               </div>
               <div className="relative aspect-video rounded-[2rem] overflow-hidden shadow-2xl group">
                 <img
-                  src="https://images.pexels.com/photos/356036/pexels-photo-356036.jpeg?auto=compress&cs=tinysrgb&w=1400"
+                  src="./img/9.png"
                   alt="Industrial Welding"
                   className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                 />
@@ -745,7 +758,7 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
                     : 'Soldagem de produção em alto volume com repetibilidade e consistência. Construída para automotivo, aeroespacial e fabricação'}
                 </p>
                 <Link
-                  to="/applications"
+                  to="/products"
                   className="inline-flex items-center gap-3 text-xl font-semibold text-white hover:text-red-400 transition-colors group mt-8"
                 >
                   <span>{language === 'en' ? 'View Applications' : language === 'es' ? 'Ver Aplicaciones' : 'Ver Aplicações'}</span>
@@ -754,7 +767,7 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
               </div>
               <div className="lg:order-1 relative aspect-video rounded-[2rem] overflow-hidden shadow-2xl group">
                 <img
-                  src="https://images.pexels.com/photos/7562024/pexels-photo-7562024.jpeg?auto=compress&cs=tinysrgb&w=1400"
+                  src="./img/7.png"
                   alt="Manufacturing"
                   className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                 />
@@ -805,7 +818,9 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
             {/* Contact Information */}
             <div className="space-y-12">
               <div className="contact-item">
-                <h3 className="text-3xl font-bold text-black mb-8 tracking-tight">Global Offices</h3>
+                <h3 className="text-3xl font-bold text-black mb-8 tracking-tight">
+                  {language === 'en' ? 'Global Offices' : language === 'es' ? 'Oficinas Globales' : 'Escritórios Globais'}
+                </h3>
                 
                 <div className="space-y-8">
                   {/* Canada Headquarters */}
@@ -815,7 +830,9 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
                         <MapPin className="w-6 h-6 text-white" />
                       </div>
                       <div className="flex-1">
-                        <h4 className="text-xl font-semibold text-black mb-3">Canada Headquarters</h4>
+                        <h4 className="text-xl font-semibold text-black mb-3">
+                          {language === 'en' ? 'Canada Headquarters' : language === 'es' ? 'Oficina Central Canadá' : 'Escritório Central Canadá'}
+                        </h4>
                         <p className="text-gray-600 leading-relaxed mb-3">
                           1000, 639 5th Ave SW<br />
                           Calgary, AB T2P 0M9
@@ -835,9 +852,15 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
                         <Mail className="w-6 h-6 text-white" />
                       </div>
                       <div className="flex-1">
-                        <h4 className="text-xl font-semibold text-black mb-3">International Email</h4>
+                        <h4 className="text-xl font-semibold text-black mb-3">
+                          {language === 'en' ? 'International Email' : language === 'es' ? 'Correo Internacional' : 'E-mail Internacional'}
+                        </h4>
                         <p className="text-gray-600 leading-relaxed mb-3">
-                          Available in English, Spanish, and Portuguese
+                          {language === 'en' 
+                            ? 'Available in English, Spanish, and Portuguese' 
+                            : language === 'es' 
+                            ? 'Disponible en inglés, español y portugués' 
+                            : 'Disponível em inglês, espanhol e português'}
                         </p>
                         <div className="text-red-600 font-medium">
                           info@lerobotics.ai
@@ -853,19 +876,33 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
                         <MapPin className="w-6 h-6 text-white" />
                       </div>
                       <div className="flex-1">
-                        <h4 className="text-xl font-semibold text-black mb-4">Global Offices</h4>
+                        <h4 className="text-xl font-semibold text-black mb-4">
+                          {language === 'en' ? 'Global Offices' : language === 'es' ? 'Oficinas Globales' : 'Escritórios Globais'}
+                        </h4>
                         <div className="space-y-4">
                           <div>
-                            <h5 className="font-semibold text-black mb-1">Mexico</h5>
+                            <h5 className="font-semibold text-black mb-1">
+                              {language === 'en' ? 'Mexico' : language === 'es' ? 'México' : 'México'}
+                            </h5>
                             <p className="text-gray-600 text-sm">Ave. Constitucion 2050, Mty. NL.</p>
                           </div>
                           <div>
-                            <h5 className="font-semibold text-black mb-1">Houston</h5>
+                            <h5 className="font-semibold text-black mb-1">
+                              {language === 'en' ? 'Houston' : 'Houston'}
+                            </h5>
                             <p className="text-gray-600 text-sm">34370 Sunset Ln, Brookshire, TX 77423</p>
                           </div>
                           <div>
-                            <h5 className="font-semibold text-black mb-1">Brazil</h5>
-                            <p className="text-gray-600 text-sm">São Paulo Office (Coming Soon)</p>
+                            <h5 className="font-semibold text-black mb-1">
+                              {language === 'en' ? 'Brazil' : language === 'es' ? 'Brasil' : 'Brasil'}
+                            </h5>
+                            <p className="text-gray-600 text-sm">
+                              {language === 'en' 
+                                ? 'São Paulo Office (Coming Soon)' 
+                                : language === 'es' 
+                                ? 'Oficina São Paulo (Próximamente)' 
+                                : 'Escritório São Paulo (Em Breve)'}
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -882,10 +919,12 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
                   {/* Country Select */}
                   <div>
                     <label className="block text-lg font-medium text-black mb-4">
-                      Your Country
+                      {language === 'en' ? 'Your Country' : language === 'es' ? 'Tu País' : 'Seu País'}
                     </label>
                     <select className="w-full px-6 py-5 bg-gray-50 border-0 rounded-2xl text-lg text-black placeholder-gray-500 focus:ring-2 focus:ring-red-500 focus:bg-white transition-all duration-200 appearance-none">
-                      <option value="">Select Country</option>
+                      <option value="">
+                        {language === 'en' ? 'Select Country' : language === 'es' ? 'Seleccionar País' : 'Selecionar País'}
+                      </option>
                       {countries.map((country) => (
                         <option key={country.value} value={country.value}>
                           {country.label}
@@ -898,21 +937,21 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-lg font-medium text-black mb-4">
-                        Name
+                        {language === 'en' ? 'Name' : language === 'es' ? 'Nombre' : 'Nome'}
                       </label>
                       <input
                         type="text"
-                        placeholder="Your name"
+                        placeholder={language === 'en' ? 'Your name' : language === 'es' ? 'Tu nombre' : 'Seu nome'}
                         className="w-full px-6 py-5 bg-gray-50 border-0 rounded-2xl text-lg text-black placeholder-gray-500 focus:ring-2 focus:ring-red-500 focus:bg-white transition-all duration-200"
                       />
                     </div>
                     <div>
                       <label className="block text-lg font-medium text-black mb-4">
-                        Email Address
+                        {language === 'en' ? 'Email Address' : language === 'es' ? 'Correo Electrónico' : 'E-mail'}
                       </label>
                       <input
                         type="email"
-                        placeholder="your@email.com"
+                        placeholder={language === 'en' ? 'your@email.com' : language === 'es' ? 'tu@email.com' : 'seu@email.com'}
                         className="w-full px-6 py-5 bg-gray-50 border-0 rounded-2xl text-lg text-black placeholder-gray-500 focus:ring-2 focus:ring-red-500 focus:bg-white transition-all duration-200"
                       />
                     </div>
@@ -921,10 +960,20 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
                   {/* Interests */}
                   <div>
                     <label className="block text-lg font-medium text-black mb-4">
-                      I'm interested in:
+                      {language === 'en' 
+                        ? "I'm interested in:" 
+                        : language === 'es' 
+                        ? 'Estoy interesado en:' 
+                        : 'Estou interessado em:'}
                     </label>
                     <select className="w-full px-6 py-5 bg-gray-50 border-0 rounded-2xl text-lg text-black placeholder-gray-500 focus:ring-2 focus:ring-red-500 focus:bg-white transition-all duration-200 appearance-none">
-                      <option value="">Robotic welding demo, training, etc.</option>
+                      <option value="">
+                        {language === 'en' 
+                          ? 'Robotic welding demo, training, etc.' 
+                          : language === 'es' 
+                          ? 'Demo de soldadura robótica, entrenamiento, etc.' 
+                          : 'Demonstração de soldagem robótica, treinamento, etc.'}
+                      </option>
                       {interests.map((interest) => (
                         <option key={interest.value} value={interest.value}>
                           {interest.label}
@@ -936,10 +985,14 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
                   {/* Message */}
                   <div>
                     <label className="block text-lg font-medium text-black mb-4">
-                      Message
+                      {language === 'en' ? 'Message' : language === 'es' ? 'Mensaje' : 'Mensagem'}
                     </label>
                     <textarea
-                      placeholder="Tell us about your welding automation needs..."
+                      placeholder={language === 'en' 
+                        ? 'Tell us about your welding automation needs...' 
+                        : language === 'es' 
+                        ? 'Cuéntanos sobre tus necesidades de automatización de soldadura...' 
+                        : 'Conte-nos sobre suas necessidades de automação de soldagem...'}
                       rows={5}
                       className="w-full px-6 py-5 bg-gray-50 border-0 rounded-2xl text-lg text-black placeholder-gray-500 focus:ring-2 focus:ring-red-500 focus:bg-white transition-all duration-200 resize-none"
                     />
