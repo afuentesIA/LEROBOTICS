@@ -22,6 +22,7 @@ export const AboutPage = ({ language }: AboutPageProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [showControls, setShowControls] = useState(false);
+  const [heroImageLoaded, setHeroImageLoaded] = useState(false);
 
   const togglePlay = () => {
     if (videoRef.current) {
@@ -40,6 +41,17 @@ export const AboutPage = ({ language }: AboutPageProps) => {
       setIsMuted(!isMuted);
     }
   };
+
+  // Precargar la imagen del hero
+  useEffect(() => {
+    const img = new Image();
+    img.src = './img/about.png';
+    img.onload = () => setHeroImageLoaded(true);
+    img.onerror = () => {
+      console.log('Error loading hero image, usando fallback');
+      setHeroImageLoaded(true);
+    };
+  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -297,16 +309,26 @@ export const AboutPage = ({ language }: AboutPageProps) => {
 
   return (
     <div ref={pageRef} className="min-h-screen bg-white pt-20 overflow-hidden">
-      {/* Hero Section - Actualizado con imagen de fondo como NewsPage */}
-      <section 
-        className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative min-h-screen flex items-center"
-        style={{
-          backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)), url('./img/about.png')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed'
-        }}
-      >
+      {/* Hero Section - Versión corregida para iPhone */}
+      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative min-h-screen flex items-center overflow-hidden">
+        {/* Fondo con imagen - usando img en lugar de background-image para iOS */}
+        <div className="absolute inset-0" style={{ backgroundColor: '#1a1a1a' }}>
+          <img
+            src="./img/about.png"
+            alt=""
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+              heroImageLoaded ? 'opacity-100' : 'opacity-0'
+            }`}
+            style={{
+              objectPosition: 'center',
+              filter: 'brightness(0.5)' // Para el efecto de overlay más oscuro
+            }}
+            onLoad={() => setHeroImageLoaded(true)}
+          />
+          {/* Overlay oscuro adicional */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-black/80" />
+        </div>
+
         <div className="max-w-7xl mx-auto text-center relative z-10">
           <div className="hero-badge inline-flex items-center gap-3 px-6 py-3 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 mb-8">
             <Sparkles className="w-5 h-5 text-red-400" />
@@ -397,6 +419,10 @@ export const AboutPage = ({ language }: AboutPageProps) => {
                     src={location.flag}
                     alt={`${location.title} flag`}
                     className="w-12 h-9 object-cover rounded-lg shadow-md border border-gray-200"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = 'https://via.placeholder.com/48x36/333333/ffffff?text=Flag';
+                    }}
                   />
                   <MapPin className="w-5 h-5 text-red-500" />
                 </div>
