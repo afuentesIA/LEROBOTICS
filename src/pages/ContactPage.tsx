@@ -22,16 +22,21 @@ export const ContactPage = ({ language }: ContactPageProps) => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [showText, setShowText] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from('.hero-content', {
-        y: 100,
-        opacity: 0,
-        duration: 1.4,
-        ease: 'power4.out',
-        delay: 0.3
-      });
+      // Solo animamos el hero-content cuando showText es true
+      if (showText) {
+        gsap.from('.hero-content', {
+          y: 100,
+          opacity: 0,
+          duration: 1.4,
+          ease: 'power4.out',
+          delay: 0.3
+        });
+      }
 
       gsap.from('.contact-form', {
         x: -80,
@@ -57,6 +62,30 @@ export const ContactPage = ({ language }: ContactPageProps) => {
     }, pageRef);
 
     return () => ctx.revert();
+  }, [showText]);
+
+  useEffect(() => {
+    const videoElement = videoRef.current;
+    if (videoElement) {
+      const handleVideoEnd = () => {
+        setShowText(true);
+        // Congelar el video en el último frame
+        videoElement.pause();
+      };
+
+      videoElement.addEventListener('ended', handleVideoEnd);
+
+      // Intentar reproducir el video
+      videoElement.play().catch(error => {
+        console.log('Auto-play fue bloqueado:', error);
+        // Si no puede reproducir, mostrar el texto inmediatamente
+        setShowText(true);
+      });
+
+      return () => {
+        videoElement.removeEventListener('ended', handleVideoEnd);
+      };
+    }
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -134,43 +163,69 @@ export const ContactPage = ({ language }: ContactPageProps) => {
 
   return (
     <div ref={pageRef} className="min-h-screen bg-white">
-      {/* Hero Section que abarca toda la pantalla con imagen de fondo */}
+      {/* Hero Section con Video */}
       <section className="relative min-h-[90vh] sm:min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Imagen de fondo */}
+        {/* Video de fondo - Siempre visible */}
         <div className="absolute inset-0 z-0">
-          <img
-            src="./img/contact.jpg"
-            alt="Robotics background"
+          <video
+            ref={videoRef}
             className="w-full h-full object-cover"
-          />
+            autoPlay
+            muted
+            playsInline
+            loop={false}
+          >
+            <source src="./img/contact-video.mp4" type="video/mp4" />
+            {/* Fallback a imagen si el video no puede cargarse */}
+            <img
+              src="./img/contact.jpg"
+              alt="Robotics background"
+              className="w-full h-full object-cover"
+            />
+          </video>
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/30" />
         </div>
         
-        <div className="relative z-10 w-full px-4 sm:px-6 md:px-8 lg:px-12">
-          <div className="max-w-7xl mx-auto">
-            <div className="hero-content text-center text-white">
-              <div className="inline-block mb-4 sm:mb-6 md:mb-8">
-                <span className="text-white text-sm sm:text-base md:text-lg lg:text-xl font-semibold tracking-wide uppercase bg-red-600/90 px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 rounded-full backdrop-blur-sm whitespace-nowrap">
-                  {language === 'en' ? 'Contact' : language === 'es' ? 'Contacto' : 'Contato'}
-                </span>
+        {/* Contenido del Hero - Solo visible cuando el video termina */}
+        {showText && (
+          <div className="relative z-10 w-full px-4 sm:px-6 md:px-8 lg:px-12">
+            <div className="max-w-7xl mx-auto">
+              <div className="hero-content text-center text-white">
+                <div className="inline-block mb-4 sm:mb-6 md:mb-8">
+                  <span className="text-white text-sm sm:text-base md:text-lg lg:text-xl font-semibold tracking-wide uppercase bg-red-600/90 px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 rounded-full backdrop-blur-sm whitespace-nowrap">
+                    {language === 'en' ? 'Contact' : language === 'es' ? 'Contacto' : 'Contato'}
+                  </span>
+                </div>
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-[10rem] font-bold mb-6 sm:mb-8 md:mb-10 tracking-tight leading-tight sm:leading-snug md:leading-none">
+                  {language === 'en' ? 'Get in Touch' : language === 'es' ? 'Contáctanos' : 'Entre em Contato'}
+                </h1>
+                <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl text-white/90 max-w-5xl lg:max-w-6xl mx-auto font-light leading-relaxed px-4 sm:px-6 md:px-8">
+                  {language === 'en'
+                    ? "We're here to help you transform your robotics operations across "
+                    : language === 'es'
+                    ? 'Estamos aquí para ayudarte a transformar tus operaciones robóticas en '
+                    : 'Estamos aqui para ajudá-lo a transformar suas operações robóticas em '}
+                  <span className="font-semibold text-red-300 whitespace-nowrap">Canada, United States, Mexico and Brazil</span>
+                </p>
               </div>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-[10rem] font-bold mb-6 sm:mb-8 md:mb-10 tracking-tight leading-tight sm:leading-snug md:leading-none">
-                {language === 'en' ? 'Get in Touch' : language === 'es' ? 'Contáctanos' : 'Entre em Contato'}
-              </h1>
-              <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl text-white/90 max-w-5xl lg:max-w-6xl mx-auto font-light leading-relaxed px-4 sm:px-6 md:px-8">
-                {language === 'en'
-                  ? "We're here to help you transform your robotics operations across "
-                  : language === 'es'
-                  ? 'Estamos aquí para ayudarte a transformar tus operaciones robóticas en '
-                  : 'Estamos aqui para ajudá-lo a transformar suas operações robóticas em '}
-                <span className="font-semibold text-red-300 whitespace-nowrap">Canada, United States, Mexico and Brazil</span>
+            </div>
+          </div>
+        )}
+
+        {/* Indicador de carga - Solo visible mientras el video se reproduce */}
+        {!showText && (
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
+            <div className="flex flex-col items-center gap-2">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 border-2 sm:border-4 border-white/30 border-t-white rounded-full animate-spin" />
+              <p className="text-white/80 text-xs sm:text-sm font-light tracking-wide">
+                {language === 'en' ? 'Loading...' : language === 'es' ? 'Cargando...' : 'Carregando...'}
               </p>
             </div>
           </div>
-        </div>
+        )}
       </section>
 
-      {/* Sección de Contact Methods - Completamente separada del hero */}
+      {/* Sección de Contact Methods */}
       <section className="py-12 sm:py-16 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
@@ -556,7 +611,7 @@ export const ContactPage = ({ language }: ContactPageProps) => {
         </form>
       </div>
 
-      {/* CTA Section - Con menos espacio arriba */}
+      {/* CTA Section */}
       <section className="pt-8 sm:pt-12 pb-12 sm:pb-16 md:pb-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 text-center">
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-black mb-4 sm:mb-6 md:mb-8 tracking-tight">
