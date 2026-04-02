@@ -857,9 +857,9 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
                         </h4>
                         <p className="text-gray-600 leading-relaxed mb-3">
                           {language === 'en' 
-                            ? 'Available in English, Spanish, and Portuguese' 
+                            ? 'Available in English and Spanish' 
                             : language === 'es' 
-                            ? 'Disponible en inglés, español y portugués' 
+                            ? 'Disponible en inglés y español ' 
                             : 'Disponível em inglês, espanhol e português'}
                         </p>
                         <div className="text-red-600 font-medium">
