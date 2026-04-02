@@ -17,7 +17,7 @@ interface HomeProps {
 export const Home = ({ language, onLanguageChange }: HomeProps) => {
   const t = translations[language];
   const heroRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const featuresRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
@@ -25,10 +25,22 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
   const noProgrammingRef = useRef<HTMLDivElement>(null);
   const [fpsCount, setFpsCount] = useState(0);
   const [precisionCount, setPrecisionCount] = useState(0);
+  const [heroImageLoaded, setHeroImageLoaded] = useState(false);
+
+  // Precargar la imagen del hero
+  useEffect(() => {
+    const img = new Image();
+    img.src = './img/HeroHome.png';
+    img.onload = () => setHeroImageLoaded(true);
+    img.onerror = () => {
+      console.log('Error loading hero image');
+      setHeroImageLoaded(true);
+    };
+  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.to(videoRef.current, {
+      gsap.to(imageRef.current, {
         scrollTrigger: {
           trigger: heroRef.current,
           start: 'top top',
@@ -71,7 +83,6 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
         '-=0.6'
       );
 
-      // ANIMACIONES OPTIMIZADAS PARA LAS FEATURE CARDS (MÁS RÁPIDAS)
       gsap.utils.toArray('.feature-card').forEach((card, index) => {
         gsap.from(card as Element, {
           scrollTrigger: {
@@ -115,7 +126,6 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
         duration: 1.2,
       });
 
-      // Animaciones para Vision System section
       if (visionRef.current) {
         gsap.from(visionRef.current.querySelector('.vision-badge'), {
           scrollTrigger: {
@@ -157,9 +167,9 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
           gsap.from(card as Element, {
             scrollTrigger: {
               trigger: card as Element,
-              start: 'top 85%',
-              end: 'top 55%',
-              scrub: 1,
+              start: 'top 90%',
+              end: 'top 70%',
+              scrub: 0.2,
               onEnter: () => {
                 if (index === 0) {
                   let count = 0;
@@ -187,7 +197,7 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
             scale: 0.8,
             opacity: 0,
             y: 50,
-            duration: 1,
+            duration: 0.3,
           });
         });
 
@@ -217,7 +227,6 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
         });
       }
 
-      // Animaciones para No Programming section
       if (noProgrammingRef.current) {
         gsap.from(noProgrammingRef.current.querySelector('.np-badge'), {
           scrollTrigger: {
@@ -338,27 +347,17 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
       title: language === 'en' ? 'Automated Welding' : language === 'es' ? 'Soldadura Automatizada' : 'Soldagem Automatizada',
       description:
         language === 'en'
-          ? 'Robotic welds for fabrication shops across the Americas'
+          ? 'Solutions for fabrication shops across the Americas'
           : language === 'es'
-          ? 'Soldaduras robóticas para talleres de fabricación en las Américas'
+          ? 'Soluciones para talleres de fabricación en las Américas'
           : 'Soldas robóticas para oficinas de fabricação nas Américas',
-    },
-    {
-      title: language === 'en' ? 'Assembly Systems' : language === 'es' ? 'Sistemas de Ensamblaje' : 'Sistemas de Montagem',
-      description:
-        language === 'en'
-          ? 'Modular solutions for oilfield and construction applications'
-          : language === 'es'
-          ? 'Soluciones modulares para aplicaciones petroleras y de construcción'
-          : 'Soluções modulares para aplicações de petróleo e construção',
-    },
+    }
   ];
 
   const countries = [
     { value: 'canada', label: language === 'en' ? 'Canada' : language === 'es' ? 'Canadá' : 'Canadá' },
     { value: 'usa', label: language === 'en' ? 'United States' : language === 'es' ? 'Estados Unidos' : 'Estados Unidos' },
     { value: 'mexico', label: language === 'en' ? 'Mexico' : language === 'es' ? 'México' : 'México' },
-    { value: 'brazil', label: language === 'en' ? 'Brazil' : language === 'es' ? 'Brasil' : 'Brasil' },
     { value: 'other', label: language === 'en' ? 'Other Country' : language === 'es' ? 'Otro País' : 'Outro País' },
   ];
 
@@ -372,29 +371,29 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
 
   return (
     <div ref={heroRef} className="min-h-screen">
+      {/* Hero Section */}
       <section className="relative h-screen w-full overflow-hidden bg-black">
         <div className="absolute inset-0 h-screen w-full overflow-hidden">
-          <div ref={videoRef} className="absolute inset-0 w-full h-full">
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="w-full h-full object-cover"
-            >
-              <source
-                src="./vid/hero2.mp4"
-                type="video/mp4"
-              />
-            </video>
+          <div ref={imageRef} className="absolute inset-0 w-full h-full">
+            <img
+              src="./img/HeroHome.png"
+              alt="Hero Background"
+              className={`w-full h-full object-cover transition-opacity duration-500 ${
+                heroImageLoaded ? 'opacity-100' : 'opacity-0'
+              }`}
+              style={{
+                objectPosition: 'center 80%',
+              }}
+              onLoad={() => setHeroImageLoaded(true)}
+            />
             <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
           </div>
 
           <div ref={textRef} className="relative z-10 h-full flex items-center">
             <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 w-full">
-              <div className="max-w-4xl">
+              <div className="max-w-4xl md:mt-0 mt-32">
                 <div className="overflow-hidden mb-6">
-                  <h1 className="hero-text-line text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white tracking-tighter leading-[0.9]">
+                  <h1 className="hero-text-line text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white tracking-tighter leading-[1.1] pb-4">
                     {language === 'en'
                       ? 'Intelligent Robotic Welding'
                       : language === 'es'
@@ -414,10 +413,10 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
                 <div className="overflow-hidden mb-12">
                   <p className="hero-text-line text-lg sm:text-xl md:text-2xl text-white/90 leading-relaxed font-light max-w-2xl">
                     {language === 'en'
-                      ? 'AI-powered welding solutions trusted across Canada, USA, Mexico, and Brazil'
+                      ? 'AI-powered welding solutions trusted across Canada, USA and Mexico'
                       : language === 'es'
-                      ? 'Soluciones de soldadura con IA probadas en Canadá, USA, México y Brasil'
-                      : 'Soluções de soldagem com IA comprovadas no Canadá, EUA, México e Brasil'}
+                      ? 'Soluciones de soldadura con IA probadas en Canadá, USA y México'
+                      : 'Soluções de soldagem com IA comprovadas no Canadá, EUA e México'}
                   </p>
                 </div>
                 <div className="hero-cta flex flex-col sm:flex-row gap-5 pt-4">
@@ -453,10 +452,13 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
         </div>
       </section>
 
-      <section ref={featuresRef} className="py-40 bg-white relative">
+      {/* Features Section - White Background */}
+      <section ref={featuresRef} className="py-32 bg-white relative">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
-          <div className="text-center mb-20">
-            <h2 className="text-5xl sm:text-6xl md:text-7xl font-bold text-black mb-8 tracking-tight">
+          <div className="text-center mb-16">
+            <div className="inline-block mb-6">
+            </div>
+            <h2 className="text-5xl sm:text-6xl md:text-7xl font-bold mb-6 tracking-tight text-black">
               {language === 'en'
                 ? 'Why LE Robotics'
                 : language === 'es'
@@ -489,29 +491,30 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
         </div>
       </section>
 
-      <section ref={visionRef} className="py-32 bg-gradient-to-br from-gray-900 via-black to-gray-900 relative overflow-hidden">
+      {/* Vision System Section - White Background */}
+      <section ref={visionRef} className="py-28 bg-white relative overflow-hidden">
         <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(220,38,38,0.15),transparent_50%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(220,38,38,0.1),transparent_50%)]" />
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-red-50/50 rounded-full blur-[128px]" />
+          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-red-50/50 rounded-full blur-[128px]" />
         </div>
 
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative">
           <div className="grid lg:grid-cols-2 gap-20 items-center">
             <div className="space-y-8">
               <div className="inline-block vision-badge">
-                <span className="text-red-400 text-sm font-bold tracking-wider uppercase px-4 py-2 bg-red-500/10 rounded-full border border-red-500/20">
+                <span className="text-red-600 text-sm font-bold tracking-wider uppercase px-4 py-2 bg-red-50 rounded-full border border-red-200">
                   {language === 'en' ? 'Core Technology' : language === 'es' ? 'Tecnología Principal' : 'Tecnologia Principal'}
                 </span>
               </div>
               <div className="vision-title">
-                <h2 className="text-5xl sm:text-6xl md:text-7xl font-bold text-white tracking-tight leading-[1.25]">
-                  {language === 'en' ? 'Vision System' : language === 'es' ? 'Sistema de Visión' : 'Sistema de Visão'}
-                  <span className="block text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-600 mt-8 pb-3">
+                <h2 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight leading-[1.25]">
+                  <span className="text-black">Vision System</span>
+                  <span className="block text-red-600 mt-6 pb-3">
                     {language === 'en' ? '& AI Technology' : language === 'es' ? 'y Tecnología IA' : 'e Tecnologia IA'}
                   </span>
                 </h2>
               </div>
-              <p className="vision-description text-xl sm:text-2xl text-white/80 leading-relaxed font-light">
+              <p className="vision-description text-xl sm:text-2xl text-gray-600 leading-relaxed font-light">
                 {language === 'en'
                   ? 'Advanced 3D vision scanning at 2000 FPS combined with real-time AI processing for unmatched welding precision and adaptability'
                   : language === 'es'
@@ -519,15 +522,15 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
                   : 'Varredura de visão 3D avançada a 2000 FPS combinada com processamento IA em tempo real para precisão e adaptabilidade incomparáveis'}
               </p>
               <div className="grid sm:grid-cols-2 gap-6 pt-4">
-                <div className="vision-stat-card bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:bg-white/10 hover:scale-105 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(220,38,38,0.3)]">
-                  <div className="text-4xl font-bold text-red-400 mb-2">{fpsCount} FPS</div>
-                  <div className="text-white/70 text-sm">
+                <div className="vision-stat-card bg-gray-50 rounded-2xl p-6 border border-gray-200 hover:bg-gray-100 hover:scale-105 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.1)]">
+                  <div className="text-4xl font-bold text-red-600 mb-2">{fpsCount} FPS</div>
+                  <div className="text-gray-600 text-sm">
                     {language === 'en' ? 'Scanning Speed' : language === 'es' ? 'Velocidad de Escaneo' : 'Velocidade de Varredura'}
                   </div>
                 </div>
-                <div className="vision-stat-card bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:bg-white/10 hover:scale-105 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(220,38,38,0.3)]">
-                  <div className="text-4xl font-bold text-red-400 mb-2">±{precisionCount.toFixed(2)}mm</div>
-                  <div className="text-white/70 text-sm">
+                <div className="vision-stat-card bg-gray-50 rounded-2xl p-6 border border-gray-200 hover:bg-gray-100 hover:scale-105 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.1)]">
+                  <div className="text-4xl font-bold text-red-600 mb-2">±{precisionCount.toFixed(2)}mm</div>
+                  <div className="text-gray-600 text-sm">
                     {language === 'en' ? 'Precision' : language === 'es' ? 'Precisión' : 'Precisão'}
                   </div>
                 </div>
@@ -535,24 +538,24 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
             </div>
 
             <div className="relative vision-image">
-              <div className="relative aspect-square rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
+              <div className="relative aspect-square rounded-3xl overflow-hidden border border-gray-200 shadow-2xl">
                 <img
                   src="./img/vision.png"
                   alt="Vision System"
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-white/20 to-transparent" />
                 <div className="absolute bottom-8 left-8 right-8 vision-overlay-card">
-                  <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300">
+                  <div className="bg-white/90 backdrop-blur-md rounded-2xl p-6 border border-gray-200 hover:bg-white transition-all duration-300 shadow-lg">
                     <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-xl flex items-center justify-center flex-shrink-0 animate-pulse">
+                      <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg">
                         <Camera className="w-6 h-6 text-white" />
                       </div>
                       <div>
-                        <h4 className="text-white font-bold text-lg mb-1">
+                        <h4 className="text-black font-bold text-lg mb-1">
                           {language === 'en' ? 'Real-Time AI Processing' : language === 'es' ? 'Procesamiento IA en Tiempo Real' : 'Processamento IA em Tempo Real'}
                         </h4>
-                        <p className="text-white/70 text-sm">
+                        <p className="text-gray-600 text-sm">
                           {language === 'en'
                             ? 'Adaptive welding paths with instant adjustments'
                             : language === 'es'
@@ -570,7 +573,8 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
         </div>
       </section>
 
-      <section ref={noProgrammingRef} className="py-32 bg-white relative overflow-hidden">
+      {/* No Programming Section - White Background with subtle red accents */}
+      <section ref={noProgrammingRef} className="py-28 bg-white relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-50" />
 
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative">
@@ -582,9 +586,11 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
                 </span>
               </div>
               <div className="np-title">
-                <h2 className="text-5xl sm:text-6xl md:text-7xl font-bold text-black tracking-tight leading-[1.25]">
-                  {language === 'en' ? 'Start Production' : language === 'es' ? 'Comienza la Producción' : 'Inicie a Produção'}
-                  <span className="block text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-500 mt-8 pb-3">
+                <h2 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight leading-[1.25]">
+                  <span className="text-black">
+                    {language === 'en' ? 'Start Production' : language === 'es' ? 'Comienza la Producción' : 'Inicie a Produção'}
+                  </span>
+                  <span className="block text-red-600 mt-6 pb-3">
                     {language === 'en' ? 'From Day One' : language === 'es' ? 'Desde el Primer Día' : 'Desde o Primeiro Dia'}
                   </span>
                 </h2>
@@ -677,55 +683,85 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
                   </div>
                 </div>
               </div>
-              <div className="absolute -z-10 inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 blur-3xl transform scale-110 animate-pulse" />
+              <div className="absolute -z-10 inset-0 bg-gradient-to-br from-red-500/10 to-red-600/10 blur-3xl transform scale-110 animate-pulse" />
             </div>
           </div>
         </div>
       </section>
 
-      <section className="py-40 bg-black relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-red-600/10 via-transparent to-transparent" />
+      {/* Real-World Proven Solutions Section - White Background */}
+      <section className="py-32 bg-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-red-50 via-white to-red-50" />
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative">
-          <div className="text-center mb-32">
-            <h2 className="text-5xl sm:text-6xl md:text-7xl font-bold text-white mb-8 tracking-tight">
-              {language === 'en'
-                ? 'Real-World Proven Solutions'
-                : language === 'es'
-                ? 'Soluciones Probadas en el Mundo Real'
-                : 'Soluções Comprovadas no Mundo Real'}
+          <div className="text-center mb-16">
+            <div className="inline-block mb-6">
+            </div>
+            <h2 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight">
+              <span className="text-black">
+                {language === 'en' ? 'Real-World Proven' : language === 'es' ? 'Soluciones Probadas en el' : 'Soluções Comprovadas no'}
+              </span>
+              <span className="text-red-600">
+                {' '}{language === 'en' ? 'Solutions' : language === 'es' ? 'Mundo Real' : 'Mundo Real'}
+              </span>
+              <span className="text-red-600">
+                {' '}{language === 'en' ? 'with Real-World Partners' : language === 'es' ? 'con Socios Reales' : 'com Parceiros Reais'}
+              </span>
             </h2>
-            <p className="text-xl sm:text-2xl text-white/80 max-w-4xl mx-auto font-light">
+            <p className="text-xl sm:text-2xl text-gray-600 max-w-4xl mx-auto font-light mt-6">
               {language === 'en'
                 ? 'Deployed across oil & gas, manufacturing, and heavy industry'
                 : language === 'es'
                 ? 'Implementado en petróleo y gas, manufactura e industria pesada'
                 : 'Implementado em petróleo e gás, manufatura e indústria pesada'}
             </p>
+            
+            {/* Logos Section */}
+            <div className="flex justify-center items-center gap-16 mt-12">
+              <div className="w-48 sm:w-56 h-auto">
+                <img
+                  src="./img/Yaskawa.webp"
+                  alt="Yaskawa"
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <div className="w-48 sm:w-56 h-auto">
+                <img
+                  src="./img/otc.png"
+                  alt="OTC"
+                  className="w-full h-full object-contain"
+                />
+              </div>
+            </div>
           </div>
 
-          <div className="space-y-32">
+          <div className="space-y-24">
             <div className="product-preview grid lg:grid-cols-2 gap-16 items-center">
-              <div className="space-y-8">
+              <div className="space-y-6">
                 <div className="inline-block">
-                  <span className="text-red-500 text-lg font-semibold tracking-wide uppercase">
+                  <span className="text-red-600 text-sm font-bold tracking-wider uppercase px-4 py-2 bg-red-50 rounded-full border border-red-200">
                     {language === 'en' ? 'Oil & Gas' : language === 'es' ? 'Petróleo y Gas' : 'Petróleo e Gás'}
                   </span>
                 </div>
-                <h3 className="text-5xl sm:text-6xl md:text-7xl font-bold text-white tracking-tight leading-none">
-                  {language === 'en' ? 'Pipeline & Pressure Vessels' : language === 'es' ? 'Tuberías y Recipientes a Presión' : 'Tubulações e Recipientes Pressurizados'}
+                <h3 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight leading-none">
+                  <span className="text-black">
+                    {language === 'en' ? 'Pressure Pipe and' : language === 'es' ? 'Tuberías a Presión y' : 'Tubulações de Pressão e'}
+                  </span>
+                  <span className="block text-red-600 mt-2">
+                    {language === 'en' ? 'Pressure Equipment' : language === 'es' ? 'Equipos a Presión' : 'Equipamentos de Pressão'}
+                  </span>
                 </h3>
-                <p className="text-xl sm:text-2xl text-white/90 leading-relaxed font-light">
+                <p className="text-xl sm:text-2xl text-gray-600 leading-relaxed font-light">
                   {language === 'en'
-                    ? 'Precision pipeline welding with certified quality. Designed for harsh field conditions and maximum uptime'
+                    ? 'Precision welding with certified quality. Designed for consistency and repeatability'
                     : language === 'es'
-                    ? 'Soldadura de tuberías de precisión con calidad certificada. Diseñada para condiciones difíciles y máxima disponibilidad'
-                    : 'Soldagem de tubulação de precisão com qualidade certificada. Projetada para condições severas e máximo tempo de operação'}
+                    ? 'Soldadura de precisión con calidad certificada. Diseñada para consistencia y repetibilidad'
+                    : 'Soldagem de precisão com qualidade certificada. Projetada para consistência e repetibilidade'}
                 </p>
                 <div className="space-y-4 pt-4">
                   {applications.map((app, index) => (
                     <div key={index} className="border-l-4 border-red-500 pl-6 py-2">
-                      <h4 className="text-xl font-semibold text-white mb-2">{app.title}</h4>
-                      <p className="text-lg text-white/80">{app.description}</p>
+                      <h4 className="text-xl font-semibold text-black mb-2">{app.title}</h4>
+                      <p className="text-lg text-gray-600">{app.description}</p>
                     </div>
                   ))}
                 </div>
@@ -736,21 +772,26 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
                   alt="Industrial Welding"
                   className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-red-600/30 via-transparent to-transparent opacity-60" />
+                <div className="absolute inset-0 bg-gradient-to-t from-red-600/20 via-transparent to-transparent opacity-60" />
               </div>
             </div>
 
             <div className="product-preview grid lg:grid-cols-2 gap-16 items-center">
-              <div className="lg:order-2 space-y-8">
+              <div className="lg:order-2 space-y-6">
                 <div className="inline-block">
-                  <span className="text-red-500 text-lg font-semibold tracking-wide uppercase">
+                  <span className="text-red-600 text-sm font-bold tracking-wider uppercase px-4 py-2 bg-red-50 rounded-full border border-red-200">
                     {language === 'en' ? 'Heavy Manufacturing' : language === 'es' ? 'Manufactura Pesada' : 'Manufatura Pesada'}
                   </span>
                 </div>
-                <h3 className="text-5xl sm:text-6xl md:text-7xl font-bold text-white tracking-tight leading-none">
-                  {language === 'en' ? 'Automotive & Fabrication' : language === 'es' ? 'Automotriz y Fabricación' : 'Automotivo e Fabricação'}
+                <h3 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight leading-none">
+                 <span className="text-black">
+                   {language === 'en' ? 'Advanced Manufacturing' : language === 'es' ? 'Manufactura Avanzada' : 'Manufatura Avançada'}
+                 </span>
+                 <span className="block text-red-600 mt-2">
+                   {language === 'en' ? 'Automation' : language === 'es' ? 'Automatización' : 'Automação'}
+                 </span>
                 </h3>
-                <p className="text-xl sm:text-2xl text-white/90 leading-relaxed font-light">
+                <p className="text-xl sm:text-2xl text-gray-600 leading-relaxed font-light">
                   {language === 'en'
                     ? 'High-volume production welding with repeatability and consistency. Built for automotive, aerospace, and metal fabrication'
                     : language === 'es'
@@ -759,7 +800,7 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
                 </p>
                 <Link
                   to="/products"
-                  className="inline-flex items-center gap-3 text-xl font-semibold text-white hover:text-red-400 transition-colors group mt-8"
+                  className="inline-flex items-center gap-3 text-xl font-semibold text-red-600 hover:text-red-700 transition-colors group mt-8"
                 >
                   <span>{language === 'en' ? 'View Applications' : language === 'es' ? 'Ver Aplicaciones' : 'Ver Aplicações'}</span>
                   <ChevronRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
@@ -771,12 +812,12 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
                   alt="Manufacturing"
                   className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-red-600/30 via-transparent to-transparent opacity-60" />
+                <div className="absolute inset-0 bg-gradient-to-t from-red-600/20 via-transparent to-transparent opacity-60" />
               </div>
             </div>
           </div>
 
-          <div className="mt-32 text-center">
+          <div className="mt-24 text-center">
             <Link
               to="/contact"
               className="inline-flex items-center justify-center gap-3 px-12 py-6 bg-gradient-to-r from-red-600 to-red-500 text-white text-xl font-semibold rounded-full hover:from-red-500 hover:to-red-400 transition-all duration-500 hover:scale-105 hover:shadow-[0_30px_80px_rgba(220,38,38,0.4)] group"
@@ -794,18 +835,24 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section ref={contactRef} className="py-40 bg-gray-50 relative overflow-hidden">
+      {/* Contact Section - Minimal space between elements */}
+      <section ref={contactRef} className="py-12 sm:py-32 bg-gray-50 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
-          <div className="text-center mb-20">
-            <h2 className="text-5xl sm:text-6xl md:text-7xl font-bold text-black mb-8 tracking-tight">
-              {language === 'en'
-                ? 'Let\'s Build Your Solution'
-                : language === 'es'
-                ? 'Construyamos tu Solución'
-                : 'Vamos Construir sua Solução'}
+          <div className="text-center mb-2 sm:mb-16">
+            <div className="inline-block mb-2 sm:mb-4">
+              <span className="text-red-600 text-base sm:text-xl font-semibold tracking-wide uppercase px-4 sm:px-6 py-1 sm:py-2 border border-red-200 rounded-full bg-red-50">
+                {language === 'en' ? 'Get In Touch' : language === 'es' ? 'Contáctanos' : 'Entre em Contato'}
+              </span>
+            </div>
+            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-1 sm:mb-6 tracking-tight">
+              <span className="text-black">
+                {language === 'en' ? "Let's Build Your" : language === 'es' ? 'Construyamos tu' : 'Vamos Construir sua'}
+              </span>
+              <span className="block text-red-600 mt-0 sm:mt-4">
+                {language === 'en' ? 'Solution' : language === 'es' ? 'Solución' : 'Solução'}
+              </span>
             </h2>
-            <p className="text-xl sm:text-2xl text-gray-600 max-w-3xl mx-auto font-light leading-relaxed">
+            <p className="text-lg sm:text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto font-light leading-relaxed px-4 mt-0 sm:mt-2">
               {language === 'en'
                 ? 'Talk to an engineer. Tell us about your production challenges'
                 : language === 'es'
@@ -814,96 +861,80 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-20 items-start">
-            {/* Contact Information */}
-            <div className="space-y-12">
+          <div className="grid lg:grid-cols-2 gap-6 sm:gap-20 items-start">
+            <div className="space-y-4 sm:space-y-12">
               <div className="contact-item">
-                <h3 className="text-3xl font-bold text-black mb-8 tracking-tight">
+                <h3 className="text-2xl sm:text-3xl font-bold text-black mb-3 sm:mb-8 tracking-tight">
                   {language === 'en' ? 'Global Offices' : language === 'es' ? 'Oficinas Globales' : 'Escritórios Globais'}
                 </h3>
                 
-                <div className="space-y-8">
-                  {/* Canada Headquarters */}
-                  <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300">
-                    <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-2xl flex items-center justify-center">
-                        <MapPin className="w-6 h-6 text-white" />
+                <div className="space-y-3 sm:space-y-6">
+                  <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300">
+                    <div className="flex items-start gap-3 sm:gap-4">
+                      <div className="w-8 h-8 sm:w-12 sm:h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-xl sm:rounded-2xl flex items-center justify-center flex-shrink-0">
+                        <MapPin className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
                       </div>
                       <div className="flex-1">
-                        <h4 className="text-xl font-semibold text-black mb-3">
+                        <h4 className="text-base sm:text-xl font-semibold text-black mb-1 sm:mb-3">
                           {language === 'en' ? 'Canada Headquarters' : language === 'es' ? 'Oficina Central Canadá' : 'Escritório Central Canadá'}
                         </h4>
-                        <p className="text-gray-600 leading-relaxed mb-3">
+                        <p className="text-xs sm:text-base text-gray-600 leading-relaxed mb-1 sm:mb-3">
                           1000, 639 5th Ave SW<br />
                           Calgary, AB T2P 0M9
                         </p>
-                        <div className="flex items-center gap-2 text-red-600 font-medium">
-                          <Phone className="w-4 h-4" />
+                        <div className="flex items-center gap-2 text-red-600 font-medium text-xs sm:text-base">
+                          <Phone className="w-3 h-3 sm:w-4 sm:h-4" />
                           <span>+1 403-860-5275</span>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* International Email */}
-                  <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300">
-                    <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 bg-gradient-to-br from-gray-600 to-gray-700 rounded-2xl flex items-center justify-center">
-                        <Mail className="w-6 h-6 text-white" />
+                  <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300">
+                    <div className="flex items-start gap-3 sm:gap-4">
+                      <div className="w-8 h-8 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl sm:rounded-2xl flex items-center justify-center flex-shrink-0">
+                        <MapPin className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
                       </div>
                       <div className="flex-1">
-                        <h4 className="text-xl font-semibold text-black mb-3">
-                          {language === 'en' ? 'International Email' : language === 'es' ? 'Correo Internacional' : 'E-mail Internacional'}
+                        <h4 className="text-base sm:text-xl font-semibold text-black mb-2 sm:mb-4">
+                          {language === 'en' ? 'Global Offices' : language === 'es' ? 'Oficinas Globales' : 'Escritórios Globais'}
                         </h4>
-                        <p className="text-gray-600 leading-relaxed mb-3">
-                          {language === 'en' 
-                            ? 'Available in English and Spanish' 
-                            : language === 'es' 
-                            ? 'Disponible en inglés y español ' 
-                            : 'Disponível em inglês, espanhol e português'}
-                        </p>
-                        <div className="text-red-600 font-medium">
-                          info@lerobotics.ai
+                        <div className="space-y-2 sm:space-y-4">
+                          <div>
+                            <h5 className="font-semibold text-black mb-0.5 sm:mb-1 text-xs sm:text-base">
+                              {language === 'en' ? 'Mexico' : language === 'es' ? 'México' : 'México'}
+                            </h5>
+                            <p className="text-gray-600 text-xs sm:text-sm">Ave. Constitucion 2050, Mty. NL.</p>
+                          </div>
+                          <div>
+                            <h5 className="font-semibold text-black mb-0.5 sm:mb-1 text-xs sm:text-base">
+                              {language === 'en' ? 'Houston' : 'Houston'}
+                            </h5>
+                            <p className="text-gray-600 text-xs sm:text-sm">34370 Sunset Ln, Brookshire, TX 77423</p>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Global Offices */}
-                  <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300">
-                    <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center">
-                        <MapPin className="w-6 h-6 text-white" />
+                  <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300">
+                    <div className="flex items-start gap-3 sm:gap-4">
+                      <div className="w-8 h-8 sm:w-12 sm:h-12 bg-gradient-to-br from-gray-600 to-gray-700 rounded-xl sm:rounded-2xl flex items-center justify-center flex-shrink-0">
+                        <Mail className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
                       </div>
                       <div className="flex-1">
-                        <h4 className="text-xl font-semibold text-black mb-4">
-                          {language === 'en' ? 'Global Offices' : language === 'es' ? 'Oficinas Globales' : 'Escritórios Globais'}
+                        <h4 className="text-base sm:text-xl font-semibold text-black mb-1 sm:mb-3">
+                          {language === 'en' ? 'International Email' : language === 'es' ? 'Correo Internacional' : 'E-mail Internacional'}
                         </h4>
-                        <div className="space-y-4">
-                          <div>
-                            <h5 className="font-semibold text-black mb-1">
-                              {language === 'en' ? 'Mexico' : language === 'es' ? 'México' : 'México'}
-                            </h5>
-                            <p className="text-gray-600 text-sm">Ave. Constitucion 2050, Mty. NL.</p>
-                          </div>
-                          <div>
-                            <h5 className="font-semibold text-black mb-1">
-                              {language === 'en' ? 'Houston' : 'Houston'}
-                            </h5>
-                            <p className="text-gray-600 text-sm">34370 Sunset Ln, Brookshire, TX 77423</p>
-                          </div>
-                          <div>
-                            <h5 className="font-semibold text-black mb-1">
-                              {language === 'en' ? 'Brazil' : language === 'es' ? 'Brasil' : 'Brasil'}
-                            </h5>
-                            <p className="text-gray-600 text-sm">
-                              {language === 'en' 
-                                ? 'São Paulo Office (Coming Soon)' 
-                                : language === 'es' 
-                                ? 'Oficina São Paulo (Próximamente)' 
-                                : 'Escritório São Paulo (Em Breve)'}
-                            </p>
-                          </div>
+                        <p className="text-xs sm:text-base text-gray-600 leading-relaxed mb-1 sm:mb-3">
+                          {language === 'en' 
+                            ? 'Available in English and Spanish' 
+                            : language === 'es' 
+                            ? 'Disponible en inglés, español y portugués' 
+                            : 'Disponível em inglês, espanhol e português'}
+                        </p>
+                        <div className="text-red-600 font-medium text-xs sm:text-base">
+                          info@lerobotics.ai
                         </div>
                       </div>
                     </div>
@@ -912,16 +943,14 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
               </div>
             </div>
 
-            {/* Contact Form */}
             <div className="contact-item">
-              <div className="bg-white rounded-[2.5rem] p-12 shadow-sm border border-gray-100">
-                <form className="space-y-8">
-                  {/* Country Select */}
+              <div className="bg-white rounded-2xl sm:rounded-[2.5rem] p-4 sm:p-8 md:p-12 shadow-sm border border-gray-100">
+                <form className="space-y-3 sm:space-y-6">
                   <div>
-                    <label className="block text-lg font-medium text-black mb-4">
+                    <label className="block text-sm sm:text-lg font-medium text-black mb-2 sm:mb-4">
                       {language === 'en' ? 'Your Country' : language === 'es' ? 'Tu País' : 'Seu País'}
                     </label>
-                    <select className="w-full px-6 py-5 bg-gray-50 border-0 rounded-2xl text-lg text-black placeholder-gray-500 focus:ring-2 focus:ring-red-500 focus:bg-white transition-all duration-200 appearance-none">
+                    <select className="w-full px-4 sm:px-6 py-3 sm:py-5 bg-gray-50 border-0 rounded-xl sm:rounded-2xl text-sm sm:text-lg text-black placeholder-gray-500 focus:ring-2 focus:ring-red-500 focus:bg-white transition-all duration-200 appearance-none">
                       <option value="">
                         {language === 'en' ? 'Select Country' : language === 'es' ? 'Seleccionar País' : 'Selecionar País'}
                       </option>
@@ -933,40 +962,38 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
                     </select>
                   </div>
 
-                  {/* Name and Email */}
-                  <div className="grid md:grid-cols-2 gap-6">
+                  <div className="grid sm:grid-cols-2 gap-3 sm:gap-6">
                     <div>
-                      <label className="block text-lg font-medium text-black mb-4">
+                      <label className="block text-sm sm:text-lg font-medium text-black mb-2 sm:mb-4">
                         {language === 'en' ? 'Name' : language === 'es' ? 'Nombre' : 'Nome'}
                       </label>
                       <input
                         type="text"
                         placeholder={language === 'en' ? 'Your name' : language === 'es' ? 'Tu nombre' : 'Seu nome'}
-                        className="w-full px-6 py-5 bg-gray-50 border-0 rounded-2xl text-lg text-black placeholder-gray-500 focus:ring-2 focus:ring-red-500 focus:bg-white transition-all duration-200"
+                        className="w-full px-4 sm:px-6 py-3 sm:py-5 bg-gray-50 border-0 rounded-xl sm:rounded-2xl text-sm sm:text-lg text-black placeholder-gray-500 focus:ring-2 focus:ring-red-500 focus:bg-white transition-all duration-200"
                       />
                     </div>
                     <div>
-                      <label className="block text-lg font-medium text-black mb-4">
+                      <label className="block text-sm sm:text-lg font-medium text-black mb-2 sm:mb-4">
                         {language === 'en' ? 'Email Address' : language === 'es' ? 'Correo Electrónico' : 'E-mail'}
                       </label>
                       <input
                         type="email"
                         placeholder={language === 'en' ? 'your@email.com' : language === 'es' ? 'tu@email.com' : 'seu@email.com'}
-                        className="w-full px-6 py-5 bg-gray-50 border-0 rounded-2xl text-lg text-black placeholder-gray-500 focus:ring-2 focus:ring-red-500 focus:bg-white transition-all duration-200"
+                        className="w-full px-4 sm:px-6 py-3 sm:py-5 bg-gray-50 border-0 rounded-xl sm:rounded-2xl text-sm sm:text-lg text-black placeholder-gray-500 focus:ring-2 focus:ring-red-500 focus:bg-white transition-all duration-200"
                       />
                     </div>
                   </div>
 
-                  {/* Interests */}
                   <div>
-                    <label className="block text-lg font-medium text-black mb-4">
+                    <label className="block text-sm sm:text-lg font-medium text-black mb-2 sm:mb-4">
                       {language === 'en' 
                         ? "I'm interested in:" 
                         : language === 'es' 
                         ? 'Estoy interesado en:' 
                         : 'Estou interessado em:'}
                     </label>
-                    <select className="w-full px-6 py-5 bg-gray-50 border-0 rounded-2xl text-lg text-black placeholder-gray-500 focus:ring-2 focus:ring-red-500 focus:bg-white transition-all duration-200 appearance-none">
+                    <select className="w-full px-4 sm:px-6 py-3 sm:py-5 bg-gray-50 border-0 rounded-xl sm:rounded-2xl text-sm sm:text-lg text-black placeholder-gray-500 focus:ring-2 focus:ring-red-500 focus:bg-white transition-all duration-200 appearance-none">
                       <option value="">
                         {language === 'en' 
                           ? 'Robotic welding demo, training, etc.' 
@@ -982,9 +1009,8 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
                     </select>
                   </div>
 
-                  {/* Message */}
                   <div>
-                    <label className="block text-lg font-medium text-black mb-4">
+                    <label className="block text-sm sm:text-lg font-medium text-black mb-2 sm:mb-4">
                       {language === 'en' ? 'Message' : language === 'es' ? 'Mensaje' : 'Mensagem'}
                     </label>
                     <textarea
@@ -993,15 +1019,14 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
                         : language === 'es' 
                         ? 'Cuéntanos sobre tus necesidades de automatización de soldadura...' 
                         : 'Conte-nos sobre suas necessidades de automação de soldagem...'}
-                      rows={5}
-                      className="w-full px-6 py-5 bg-gray-50 border-0 rounded-2xl text-lg text-black placeholder-gray-500 focus:ring-2 focus:ring-red-500 focus:bg-white transition-all duration-200 resize-none"
+                      rows={3}
+                      className="w-full px-4 sm:px-6 py-3 sm:py-5 bg-gray-50 border-0 rounded-xl sm:rounded-2xl text-sm sm:text-lg text-black placeholder-gray-500 focus:ring-2 focus:ring-red-500 focus:bg-white transition-all duration-200 resize-none"
                     />
                   </div>
 
-                  {/* Submit Button */}
                   <button
                     type="submit"
-                    className="w-full py-6 bg-gradient-to-r from-red-600 to-red-500 text-white text-xl font-semibold rounded-2xl hover:from-red-500 hover:to-red-400 transition-all duration-500 hover:scale-[1.02] hover:shadow-[0_20px_60px_rgba(220,38,38,0.3)] active:scale-95"
+                    className="w-full py-3 sm:py-6 bg-gradient-to-r from-red-600 to-red-500 text-white text-base sm:text-xl font-semibold rounded-xl sm:rounded-2xl hover:from-red-500 hover:to-red-400 transition-all duration-500 hover:scale-[1.02] hover:shadow-[0_20px_60px_rgba(220,38,38,0.3)] active:scale-95"
                   >
                     {language === 'en'
                       ? 'Talk to an Engineer'
@@ -1016,7 +1041,6 @@ export const Home = ({ language, onLanguageChange }: HomeProps) => {
         </div>
       </section>
 
-      {/* ChatBot Component */}
       <ChatBot language={language} onLanguageChange={onLanguageChange} />
     </div>
   );
